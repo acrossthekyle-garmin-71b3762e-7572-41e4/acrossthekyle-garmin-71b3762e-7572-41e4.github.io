@@ -13,7 +13,7 @@ const Summary = ({ cost, email, name, quantity, step }) => {
           <strong className="me-auto text-dark ps-2">Summary</strong>
           <button
             type="button"
-            className="btn btn-muted bg-transparent"
+            className="btn btn-muted bg-transparent text-decoration-underline"
             onClick={() => setVisible(!visible)}
           >
             <small>{visible ? 'Hide' : 'Show'}</small>
@@ -43,7 +43,7 @@ const Summary = ({ cost, email, name, quantity, step }) => {
                 <hr />
 
                 <div className="d-flex justify-content-between align-items-center p-2">
-                  <div>* Unlock Code(s) will be sent to <span className="fw-bold">{email}</span></div>
+                  <div>Unlock Code(s) will be sent to: <span className="fw-bold">{email}</span></div>
                 </div>
               </>
             )}
@@ -117,7 +117,7 @@ const Choices = ({ choice, choices, onChangeQuantity, onChoose, quantity, type }
                       className="btn btn-success"
                       onClick={() => onChoose(key, type)}
                     >
-                      Purchase
+                      Buy Code
                     </button>
                   )}
                 </div>
@@ -407,7 +407,7 @@ const Purchase = ({ apps, bundles, ...props }) => {
                     className="btn btn-primary ms-2"
                     onClick={next}
                   >
-                    Next
+                    Next: Enter email
                   </button>
                 </div>
               </div>
@@ -427,7 +427,7 @@ const Purchase = ({ apps, bundles, ...props }) => {
                 </label>
                 <input type="email" className="form-control" id="email" onChange={handleEmail} value={email} />
                 <div className="form-text no-shadow text-start">
-                  * The Unlock Code will be sent to this email address.
+                  The Unlock Code will be sent to this email address.
                 </div>
               </div>
             </div>
@@ -446,7 +446,7 @@ const Purchase = ({ apps, bundles, ...props }) => {
                   className="btn btn-primary ms-2"
                   onClick={next}
                 >
-                  Next
+                  Next: Checkout
                 </button>
               </div>
             </div>
@@ -459,6 +459,15 @@ const Purchase = ({ apps, bundles, ...props }) => {
               {isPending && (
                 <div className="spinner-border" role="status" />
               )}
+
+              <p className="text-start no-shadow">
+                Ready to checkout? Click, or tap, on the "Pay with PayPal" button below.
+              </p>
+              <p className="text-start no-shadow">
+                Note: you <strong>do not</strong> need to have a PayPal account in order to pay.
+                Choose the "Pay with Debit or Credit Card" option, and after
+                filling out the form click on "Continue as Guest".
+              </p>
 
               <PayPalButtons
                 style={{
@@ -475,19 +484,14 @@ const Purchase = ({ apps, bundles, ...props }) => {
 
               <div className="form-text no-shadow text-start">
                 <p>
-                  * You <strong>do not</strong> need to have a PayPal account, there is a guest checkout
-                  option: click on "Pay with Debit or Credit Card" and after filling
-                  out the form click on "Continue as Guest".
-                </p>
-                <p>
-                  ** When using the guest checkout option, clicking on "Create Account & Continue",
+                  When using the "Pay with Debit or Credit Card" option, clicking on "Create Account & Continue",
                   or "Continue as Guest", will charge your payment method.
                 </p>
               </div>
             </div>
 
             <div className="row mt-4">
-              <div className="col text-center">
+              <div className="col d-flex justify-content-between">
                 <button
                   type="button"
                   className="btn btn-light me-2"

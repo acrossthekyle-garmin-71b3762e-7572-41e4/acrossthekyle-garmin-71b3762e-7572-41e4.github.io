@@ -103,3 +103,8 @@ body {
 .my-logo {
   cursor: pointer;
 }
+
+img.me {
+  max-width: 8rem;
+  border-radius: 50% !important;
+}

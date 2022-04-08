@@ -13,7 +13,7 @@ const Donate = () => {
           target="_blank"
           rel="noreferrer"
         >
-          Donate
+          Go To buymeacoffee.com
         </a>
       </p>
     </>

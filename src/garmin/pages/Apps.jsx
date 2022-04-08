@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Modal = ({ description, features, id, name, onPurchase, settings, trial, type, url }) => {
+const Modal = ({ cost, description, features, id, name, onPurchase, settings, trial, type, url }) => {
 	return (
 		<div className="modal" id={`${id}_modal`} tabIndex="-1">
 		  <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -10,9 +10,6 @@ const Modal = ({ description, features, id, name, onPurchase, settings, trial, t
 		        <button type="button" className="btn-close" data-bs-dismiss="modal" />
 		      </div>
 		      <div className="modal-body text-dark text-start no-shadow">
-		      	<h3>Trial Period</h3>
-		      	<p>{trial} Days</p>
-
 		      	<h3>Description</h3>
 		        {description.map((paragraph, index) => (
 		        	<p key={index}>{paragraph}</p>
@@ -31,11 +28,16 @@ const Modal = ({ description, features, id, name, onPurchase, settings, trial, t
 		        	<li key={index}>{paragraph}</li>
 		        ))}
 		        </ul>
+
+		        <h3>Trial Period</h3>
+		      	<p>{trial} Days</p>
 		      </div>
 		      <div className="modal-footer">
 		        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-		        <a className="btn btn-primary" href={url} target="_blank" rel="noreferrer">Download</a>
-		        <button type="button" className="btn btn-success" data-bs-dismiss="modal" onClick={onPurchase}>Purchase</button>
+		        <a className="btn btn-primary" href={url} target="_blank" rel="noreferrer">View on Store</a>
+		        <button type="button" className="btn btn-success" data-bs-dismiss="modal" onClick={onPurchase}>
+		        	Buy Code: ${String(cost)}
+		        </button>
 		      </div>
 		    </div>
 		  </div>

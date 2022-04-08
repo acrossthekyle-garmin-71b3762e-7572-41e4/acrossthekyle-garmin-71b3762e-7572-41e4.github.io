@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
+import me from '../images/me.jpg';
+
 import Home from './pages/Home';
 import Apps from './pages/Apps';
 import Purchase from './pages/Purchase';
@@ -19,7 +21,8 @@ const apps = [
     description: [
       "This widget shows the current (Mean Sea Level) barometric pressure using the built-in barometer sensor, along with a gauge. A historical trend is shown via an arrow below the gauge. Arrow indicates falling, rising, or steady, pressure conditions. A graph is also available showing the data for the last X hours (depends on device size). The third screen will show the current local (ambient) pressure.",
       "There is also a 'Storm Alert' feature that will alert you if the pressure is dropping by an amount that is greater than specified in the Settings (see Settings, off by default). This is a new/experimental feature.",
-      "You can also change most of the settings from the device Menu (device dependent)."
+      "You can also change most of the settings from the device Menu (device dependent).",
+      "Enjoy all of these features, for free, during the trial period which lasts for 7 days. Once the trial period ends you will need to purchase an Unlock Code."
     ],
     features: [
       'Barometric Trend',
@@ -50,7 +53,8 @@ const apps = [
     description: [
       "This widget shows the current degree heading along with altitude and barometric pressure trend, the altitude history, barometer history, current Lat/Long location along with GPS signal strength (blue means it is using the last known GPS location), and a dedicated compass screen for doing deviation.",
       "The screen showing degrees and N.E.S.W. letters below degrees allows for Deviation. For touchscreen devices tap on the screen, and for devices with 5 buttons press the Start button, to enter/exit deviation mode.",
-      "Settings exist for fine-tuning the experience including adjusting for declination."
+      "Settings exist for fine-tuning the experience including adjusting for declination.",
+      "Enjoy all of these features, for free, during the trial period which lasts for 7 days. Once the trial period ends you will need to purchase an Unlock Code."
     ],
     features: [
       'Current heading in degrees',
@@ -85,7 +89,8 @@ const apps = [
     trial: 7,
     url: 'https://apps.garmin.com/en-US/apps/ae525b97-3538-47b8-bef4-6920894c572f',
     description: [
-      "This widget shows the current altitude using either the built-in sensor, or GPS (whichever has better accuracy/availability). It will also show estimated Effective Oxygen at the given altitude. A graph is also available showing the data for the last X hours (depends on device size)."
+      "This widget shows the current altitude using either the built-in sensor, or GPS (whichever has better accuracy/availability). It will also show estimated Effective Oxygen at the given altitude. A graph is also available showing the data for the last X hours (depends on device size).",
+      "Enjoy all of these features, for free, during the trial period which lasts for 7 days. Once the trial period ends you will need to purchase an Unlock Code."
     ],
     features: [
       'Current altitude',
@@ -115,7 +120,8 @@ const apps = [
     trial: 7,
     url: 'https://apps.garmin.com/en-US/apps/e28dffc6-f1c7-49b4-ab49-85766c65bbb2',
     description: [
-      "This widget shows the current heart rate using the built-in sensor (along with a ring of zones), the seven-day average resting heart rate, and an approximation of the HRV based on the heart beat intervals (in milliseconds) updated every four seconds (also depends on devices supporting CIQ 3.0.0 or higher). A graph is also available showing the data for the last X hours (depends on device size)."
+      "This widget shows the current heart rate using the built-in sensor (along with a ring of zones), the seven-day average resting heart rate, and an approximation of the HRV based on the heart beat intervals (in milliseconds) updated every four seconds (also depends on devices supporting CIQ 3.0.0 or higher). A graph is also available showing the data for the last X hours (depends on device size).",
+      "Enjoy all of these features, for free, during the trial period which lasts for 7 days. Once the trial period ends you will need to purchase an Unlock Code."
     ],
     features: [
       'Current heart rate',
@@ -143,7 +149,8 @@ const apps = [
     url: 'https://apps.garmin.com/en-US/apps/f54aaac0-ee50-4b46-a062-60c91fecd359',
     description: [
       "This widget is inspired by the Sun Times widget found on newer Garmin watches.",
-      "Shows the Sunrise/Sunset, along with Twilight (dawn/dusk), in a circle with color segments showing the various stages. Settings exist for fine-tuning the experience, check them out! You can also set your default location using latitude and longitude values such as 34.052235 and -118.243683 if no GPS is available (found in Settings)."
+      "Shows the Sunrise/Sunset, along with Twilight (dawn/dusk), in a circle with color segments showing the various stages. Settings exist for fine-tuning the experience, check them out! You can also set your default location using latitude and longitude values such as 34.052235 and -118.243683 if no GPS is available (found in Settings).",
+      "Enjoy all of these features, for free, during the trial period which lasts for 7 days. Once the trial period ends you will need to purchase an Unlock Code."
     ],
     features: [
       'View sunrise/sunset times',
@@ -176,7 +183,8 @@ const apps = [
     trial: 7,
     url: 'https://apps.garmin.com/en-US/apps/0398a4db-a4ee-49f4-aca3-e380b93dba45',
     description: [
-      "This Temperature widget shows the current (approximate) external temperature using the built-in sensor, along with a thermometer showing the degrees. It will show 'AIR TEMPERATURE' when not worn on the wrist (leave it off of the wrist for ~10-15 minutes to get a somewhat accurate reading), and 'SKIN TEMPERATURE' when worn on the wrist. Core temperature is an estimation using the skin temperature reading. A graph is also available showing the data for the last X hours (depends on device size)."
+      "This Temperature widget shows the current (approximate) external temperature using the built-in sensor, along with a thermometer showing the degrees. It will show 'AIR TEMPERATURE' when not worn on the wrist (leave it off of the wrist for ~10-15 minutes to get a somewhat accurate reading), and 'SKIN TEMPERATURE' when worn on the wrist. Core temperature is an estimation using the skin temperature reading. A graph is also available showing the data for the last X hours (depends on device size).",
+      "Enjoy all of these features, for free, during the trial period which lasts for 7 days. Once the trial period ends you will need to purchase an Unlock Code."
     ],
     features: [
       'Current temperature of the air or of a surface',
@@ -198,7 +206,7 @@ const apps = [
 
 const bundles = [
   {
-    name: 'All Widgets',
+    name: 'All 6 Widgets',
     key: 'all',
     cost: 30.00,
     sale: 24.00
@@ -228,7 +236,7 @@ const pages = [
 	},
 	{
 		name: 'Help',
-		title: 'Helpful Information',
+		title: 'Help',
 		key: 'help'
 	}
 ];
@@ -279,10 +287,12 @@ const Garmin = () => {
 		  </header>
 
 		  <main className="px-3">
-	    	<h1 className="pb-4 mt-4">{getPageTitle()}</h1>
+        {page === pages[0].key && <img src={me} class="rounded mx-auto d-block mb-4 me" />}
+
+	    	{page !== pages[0].key && <h1 className="pb-4 mt-4">{getPageTitle()}</h1>}
 
 	    	<>
-				  {page === pages[0].key && <Home onPress={() => setPage(pages[2].key)} />}
+				  {page === pages[0].key && <Home onPress={(key) => setPage(key)} />}
 		      {page === pages[1].key && <Apps apps={apps} onPurchase={handleOnPurchase} />}
 		      {page === pages[2].key && (
             // prod: AfukE7xeOHI3Qh5RGage7d9BYnxG0NHw_WEq0H_aoTRfEDMjOdRVAj7EpoyVQfSaoDDDGBuqqV02jEUu
@@ -303,7 +313,8 @@ const Garmin = () => {
       </main>
 
 		  <footer className="mt-auto text-white-50">
-		    <p>
+		    <p className="d-block d-xs-block" />
+        <p className="d-none d-sm-block">
           Official store page can be found <a href="https://apps.garmin.com/en-US/developer/f796f8e5-5034-44c2-99a7-21d319c6c728/apps" className="text-white">here</a>.
         </p>
 		  </footer>
