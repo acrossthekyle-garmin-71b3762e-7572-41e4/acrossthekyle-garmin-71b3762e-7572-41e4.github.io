@@ -364,6 +364,8 @@ const Purchase = ({ apps, bundles, ...props }) => {
       )}
 
       <div className="my-form mb-4">
+        <h1 className="pb-4 mt-4">Purchase an Unlock Code</h1>
+
         {step > 1 && (
           <Summary cost={getCost()} email={email} name={getName()} quantity={quantity} step={step} />
         )}

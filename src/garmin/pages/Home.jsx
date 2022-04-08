@@ -26,7 +26,7 @@ const Home = ({ onPress }) => {
 		      	className="btn btn-lg btn-success fw-bold mt-4"
 		      	onClick={() => onPress('purchase')}
 		      >
-		      	Purchase a Watch App
+		      	Purchase an Unlock Code
 		      </button>
 	      </div>
 	    </div>
