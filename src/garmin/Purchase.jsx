@@ -148,11 +148,26 @@ const Purchase = () => {
 
   const [{ isPending }] = usePayPalScriptReducer();
 
+  const handleOnCancel = useCallback((removeSearchParams = true) => {
+    setSuccessful(undefined);
+    setChoice(undefined);
+    setChoiceType('app');
+    setEmail('');
+    setQuantity(1);
+    setStep(1);
+    setGroups(null);
+    setCodeCount(1);
+
+    if (removeSearchParams) {
+      setSearchParams({});
+    }
+  }, [setSearchParams]);
+
   useEffect(() => {
     return () => {
       handleOnCancel(false);
     };
-  }, []);
+  }, [handleOnCancel]);
 
   const getCost = useCallback(() => {
     if (!choice) {
@@ -194,21 +209,6 @@ const Purchase = () => {
     setSuccessful(undefined);
 
     setStep(step - 1)
-  };
-
-  const handleOnCancel = (removeSearchParams = true) => {
-    setSuccessful(undefined);
-    setChoice(undefined);
-    setChoiceType('app');
-    setEmail('');
-    setQuantity(1);
-    setStep(1);
-    setGroups(null);
-    setCodeCount(1);
-
-    if (removeSearchParams) {
-      setSearchParams({});
-    }
   };
 
   const handleOnReset = () => {
