@@ -3,7 +3,7 @@ import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 
 const axios = require('axios').default;
 
-const Summary = ({ cost, email, name, quantity }) => {
+const Summary = ({ cost, email, name, quantity, step }) => {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -23,7 +23,7 @@ const Summary = ({ cost, email, name, quantity }) => {
           <div className="toast-body text-dark text-start">
             <div className="d-flex justify-content-between align-items-center p-2">
               <div className="fw-bold d-flex">Item</div>
-              <div>Unlock Code for {name}</div>
+              <div className="text-end ps-4">Unlock Code for {name}</div>
             </div>
 
             <div className="d-flex justify-content-between align-items-center p-2">
@@ -38,7 +38,7 @@ const Summary = ({ cost, email, name, quantity }) => {
               <div>${cost}.00</div>
             </div>
 
-            {email && (
+            {email && step === 3 && (
               <>
                 <hr />
 
@@ -336,8 +336,14 @@ const Purchase = ({ apps, bundles, ...props }) => {
 
   if (successful === false) {
     return (
-      <div className="alert alert-danger no-shadow text-start" role="alert">
+      <div className="alert alert-danger alert-dismissible no-shadow text-start" role="alert">
         <h4 className="alert-heading">Unlock Code Generation Error</h4>
+        <button
+          type="button"
+          className="btn-close my-alert-btn-close"
+          data-bs-dismiss="alert"
+          onClick={handleOnReset}
+        />
         <p>
           Something went wrong with generating the Unlock Code(s), but
           your payment was still processed. Please reach out via the
@@ -359,7 +365,7 @@ const Purchase = ({ apps, bundles, ...props }) => {
 
       <div className="my-form mb-4">
         {step > 1 && (
-          <Summary cost={getCost()} email={email} name={getName()} quantity={quantity} />
+          <Summary cost={getCost()} email={email} name={getName()} quantity={quantity} step={step} />
         )}
 
         {step === 1 && (
@@ -474,8 +480,8 @@ const Purchase = ({ apps, bundles, ...props }) => {
                   out the form click on "Continue as Guest".
                 </p>
                 <p>
-                  ** When using the guest checkout option, clicking on "Create Account & Continue"
-                  or "Continue as Guest" will charge your payment method.
+                  ** When using the guest checkout option, clicking on "Create Account & Continue",
+                  or "Continue as Guest", will charge your payment method.
                 </p>
               </div>
             </div>

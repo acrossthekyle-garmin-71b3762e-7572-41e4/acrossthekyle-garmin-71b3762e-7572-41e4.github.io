@@ -254,18 +254,26 @@ const Garmin = () => {
     <div className="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
 		  <header className="mb-auto">
 		    <div>
-		      <h3 className="float-md-start mb-0">acrossthekyle</h3>
+		      <h3 className="float-md-start mb-0 my-logo" onClick={() => setPage(pages[0].key)}>
+            acrossthekyle
+          </h3>
 		      <nav className="nav nav-masthead justify-content-center float-md-end">
-		      	{pages.map(({ key, name }) => (
-		      		<button
-		      			type="button"
-		      			className={`nav-link ${page === key ? 'active' : ''}`}
-		      			onClick={() => setPage(key)}
-		      			key={key}
-		      		>
-		      			{name}
-		      		</button>
-		      	))}
+		      	{pages.map(({ key, name }) => {
+              if (key === 'home') {
+                return null;
+              }
+
+		      		return (
+                <button
+                  type="button"
+                  className={`nav-link ${page === key ? 'active' : ''}`}
+                  onClick={() => setPage(key)}
+                  key={key}
+                >
+                  {name}
+                </button>
+              );
+		      	})}
 		      </nav>
 		    </div>
 		  </header>
