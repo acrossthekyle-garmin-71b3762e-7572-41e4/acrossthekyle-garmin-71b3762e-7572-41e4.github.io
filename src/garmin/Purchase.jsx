@@ -286,7 +286,12 @@ const Purchase = () => {
           data-bs-dismiss="alert"
           onClick={handleOnReset}
         />
-        <p>Thank you so much for your payment!</p>
+        <p>Thank you so much for your support!</p>
+
+        <p>
+          The Unlock Code(s), along with some extra tips, are on their way to your email inbox
+          right now! Please keep the Unlock Code(s) around for your own personal records.
+        </p>
 
         {groups.length === 1 && (
           <>
@@ -319,20 +324,13 @@ const Purchase = () => {
         )}
 
         <p>
-          Please copy and insert Unlock Codes without any space symbols at the beginning or end.
-        </p>
-
-        <p>
-          The Unlock Code(s), along with some extra tips, are also on their way to your email inbox
-          right now. Please keep the Unlock Code(s) around for your own personal records.
-        </p>
-        <p>
           Thanks again!
         </p>
         <hr />
         <p className="mb-0">
           PS. If you encounter any issues when entering an Unlock Code please reach out
-          via the "Contact Developer" feature in the ConnectIQ mobile app.
+          via <a href="mailto:acrossthekyle@gmail.com">email</a>, or through
+          the "Contact Developer" feature in the ConnectIQ mobile app.
         </p>
       </div>
     );
