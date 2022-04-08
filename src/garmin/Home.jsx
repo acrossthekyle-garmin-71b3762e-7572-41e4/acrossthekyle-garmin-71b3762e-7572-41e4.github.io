@@ -1,8 +1,15 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
+
+import me from '../images/me.jpg';
 
 const Home = ({ onPress }) => {
+	const navigate = useNavigate();
+
 	return (
 		<>
+			<img src={me} class="rounded mx-auto d-block mb-4 me" alt="" />
+
 			<p className="lead">
 	    	Hello!
 	    </p>
@@ -15,7 +22,7 @@ const Home = ({ onPress }) => {
 		    	<button
 		      	type="button"
 		      	className="btn btn-lg btn-primary fw-bold mt-4"
-		      	onClick={() => onPress('apps')}
+		      	onClick={() => navigate('apps')}
 		      >
 		      	View Watch Apps
 		      </button>
@@ -24,7 +31,7 @@ const Home = ({ onPress }) => {
 		      <button
 		      	type="button"
 		      	className="btn btn-lg btn-success fw-bold mt-4"
-		      	onClick={() => onPress('purchase')}
+		      	onClick={() => navigate('purchase')}
 		      >
 		      	Purchase an Unlock Code
 		      </button>

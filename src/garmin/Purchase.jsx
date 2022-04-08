@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useSearchParams } from "react-router-dom";
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+
+import { apps, bundles } from './store';
 
 const axios = require('axios').default;
 
@@ -130,8 +133,10 @@ const Choices = ({ choice, choices, onChangeQuantity, onChoose, quantity, type }
   );
 };
 
-const Purchase = ({ apps, bundles, ...props }) => {
-	const [choice, setChoice] = useState(props.choice);
+const Purchase = () => {
+  let [searchParams, setSearchParams] = useSearchParams();
+
+	const [choice, setChoice] = useState(searchParams.has('app') ? searchParams.get('app') : undefined);
   const [choiceType, setChoiceType] = useState('app');
   const [email, setEmail] = useState('');
   const [step, setStep] = useState(1);
@@ -145,10 +150,7 @@ const Purchase = ({ apps, bundles, ...props }) => {
 
   useEffect(() => {
     return () => {
-      setStep(1);
-      setChoice(undefined);
-      setEmail('');
-      setSuccessful(undefined);
+      handleOnCancel(false);
     };
   }, []);
 
@@ -161,7 +163,7 @@ const Purchase = ({ apps, bundles, ...props }) => {
     var result = items.filter(({ key }) => choice === key)[0];
 
     return (result.sale !== undefined ? result.sale : result.cost) * quantity;
-  }, [apps, bundles, choice, choiceType, quantity]);
+  }, [choice, choiceType, quantity]);
 
   const getName = useCallback(() => {
     if (!choice) {
@@ -171,7 +173,7 @@ const Purchase = ({ apps, bundles, ...props }) => {
     var items = choiceType === 'app' ? apps : bundles;
 
     return items.filter(({ key }) => choice === key)[0].name;
-  }, [apps, bundles, choice, choiceType]);
+  }, [choice, choiceType]);
 
   const handleChoice = (selection, type) => {
     setChoice(selection);
@@ -194,7 +196,7 @@ const Purchase = ({ apps, bundles, ...props }) => {
     setStep(step - 1)
   };
 
-  const handleOnCancel = () => {
+  const handleOnCancel = (removeSearchParams = true) => {
     setSuccessful(undefined);
     setChoice(undefined);
     setChoiceType('app');
@@ -204,7 +206,9 @@ const Purchase = ({ apps, bundles, ...props }) => {
     setGroups(null);
     setCodeCount(1);
 
-    props.onCancel();
+    if (removeSearchParams) {
+      setSearchParams({});
+    }
   };
 
   const handleOnReset = () => {
@@ -364,8 +368,6 @@ const Purchase = ({ apps, bundles, ...props }) => {
       )}
 
       <div className="my-form mb-4">
-        <h1 className="pb-4 mt-4">Purchase an Unlock Code</h1>
-
         {step > 1 && (
           <Summary cost={getCost()} email={email} name={getName()} quantity={quantity} step={step} />
         )}
