@@ -15,7 +15,7 @@ const Help = () => {
             Once you get the Unlock Code, open the Garmin ConnectIQ Mobile app (make sure the widget isn't open on the watch).
           </li>
           <li>
-            Enter the Unlock Code in the Settings screen for this widget, and press Save.
+            Enter the Unlock Code in the Settings screen for this widget, without any space symbols at the beginning or end, and press Save.
           </li>
           <li>
             Close the Garmin ConnectIQ Mobile app.
