@@ -47,7 +47,7 @@ const Manual = () => {
   const onSubmit = () => {
   	setProcessing(true);
 
-  	const items = items = [{
+  	const items = [{
       choice,
       name: getName()
     }];
