@@ -108,3 +108,10 @@ img.me {
   max-width: 8rem;
   border-radius: 50% !important;
 }
+
+.my-dropdown-toggle::after {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  margin-top: -2px;
+}

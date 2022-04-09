@@ -14,6 +14,7 @@ import GarminApps from './garmin/Apps';
 import GarminDonate from './garmin/Donate';
 import GarminHelp from './garmin/Help';
 import GarminPurchase from './garmin/Purchase';
+import GarminManual from './garmin/Manual';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         } />
         <Route path="donate" element={<GarminDonate />} />
         <Route path="help" element={<GarminHelp />} />
+        <Route path="manual" element={<GarminManual />} />
       </Route>
     </Routes>
   );

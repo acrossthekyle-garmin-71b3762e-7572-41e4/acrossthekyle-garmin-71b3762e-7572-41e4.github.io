@@ -9,7 +9,9 @@ const Garmin = () => {
   const navigate = useNavigate();
 
   const getPageTitle = () => {
-    return pages.filter(({ path }) => path === location.pathname)[0].title;
+    const results = pages.filter(({ path }) => path === location.pathname);
+
+    return results.length > 0 ? results[0].title : '';
   };
 
   return (
