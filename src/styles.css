@@ -115,3 +115,9 @@ img.me {
   top: 50%;
   margin-top: -2px;
 }
+
+@media (max-width: 768px) {
+  .my-home-buttons {
+    flex-direction: column-reverse;
+  }
+}

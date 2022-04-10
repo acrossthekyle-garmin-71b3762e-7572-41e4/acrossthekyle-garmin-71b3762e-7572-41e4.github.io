@@ -14,6 +14,7 @@ const Manual = () => {
   const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [processing, setProcessing] = useState(false);
+  const [successful, setSuccessful] = useState(undefined);
 
   const getName = useCallback(() => {
     if (!choice) {
@@ -52,7 +53,9 @@ const Manual = () => {
       name: getName()
     }];
 
-    axios.post('https://api.acrossthekyle.com/api/garmin/manual', {
+    const url = (process.env.NODE_ENV === 'development' ? 'http://localhost/api/garmin/manual' : 'https://api.acrossthekyle.com/api/garmin/manual');
+
+    axios.post(url, {
       choice: getName(),
       items,
       email,
@@ -62,11 +65,49 @@ const Manual = () => {
     })
       .then((response) => {
         setProcessing(false);
+        setSuccessful(true);
       })
       .catch(() => {
         setProcessing(false);
+        setSuccessful(false);
       });
   };
+
+  const handleOnReset = () => {
+    window.location.reload();
+  };
+
+  if (successful === true) {
+    return (
+      <div className="alert alert-success alert-dismissible no-shadow text-start" role="alert">
+        <button
+          type="button"
+          className="btn-close my-alert-btn-close"
+          data-bs-dismiss="alert"
+          onClick={handleOnReset}
+        />
+        <p className="my-0">
+          Success
+        </p>
+      </div>
+    );
+  }
+
+  if (successful === false) {
+    return (
+      <div className="alert alert-danger alert-dismissible no-shadow text-start" role="alert">
+        <button
+          type="button"
+          className="btn-close my-alert-btn-close"
+          data-bs-dismiss="alert"
+          onClick={handleOnReset}
+        />
+        <p className="my-0">
+          Failure
+        </p>
+      </div>
+    );
+  }
 
   return (
     <>

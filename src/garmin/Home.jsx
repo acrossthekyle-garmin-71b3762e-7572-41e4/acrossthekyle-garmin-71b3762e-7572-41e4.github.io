@@ -8,7 +8,7 @@ const Home = ({ onPress }) => {
 
 	return (
 		<>
-			<img src={me} class="rounded mx-auto d-block mb-4 me" alt="" />
+			<img src={me} className="rounded mx-auto d-block mb-4 me" alt="" />
 
 			<p className="lead">
 	    	Hello!
@@ -17,7 +17,7 @@ const Home = ({ onPress }) => {
 	    	On this website you can purchase Unlock Codes for my watch apps
 	    	as well as learn more about them, along with helpful instructions.
 	    </p>
-	    <div className="row">
+	    <div className="d-flex row my-home-buttons">
 	    	<div className="col-12 col-md-6 text-md-end">
 		    	<button
 		      	type="button"

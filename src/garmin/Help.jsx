@@ -31,6 +31,13 @@ const Help = () => {
           </li>
         </ul>
       </p>
+      <h2 className="pb-4 mt-4 text-start"># Issues With Email</h2>
+      <p className="lead text-start">
+        Emails can sometimes take up to 12+ hours to arrive. If the email has not
+        arrived in a timely manner first check your spam folder (sometimes they can end up in there),
+        and if they still have not arrived then please reach out via <a href="mailto:acrossthekyle@gmail.com">email</a>,
+        or through the "Contact Developer" feature in the ConnectIQ mobile app.
+      </p>
     </>
   );
 }

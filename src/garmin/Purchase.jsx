@@ -248,7 +248,9 @@ const Purchase = () => {
         }];
       }
 
-      axios.post('https://api.acrossthekyle.com/api/garmin/generate', {
+      const url = (process.env.NODE_ENV === 'development' ? 'http://localhost/api/garmin/generate' : 'https://api.acrossthekyle.com/api/garmin/generate');
+
+      axios.post(url, {
         choice: getName(),
         items,
         email,
@@ -278,59 +280,20 @@ const Purchase = () => {
   if (successful === true && groups !== undefined) {
     return (
       <div className="alert alert-success alert-dismissible no-shadow text-start" role="alert">
-        <h4 className="alert-heading">Thank You!</h4>
+        <h4 className="alert-heading">Thank you so much for your support!</h4>
         <button
           type="button"
           className="btn-close my-alert-btn-close"
           data-bs-dismiss="alert"
           onClick={handleOnReset}
         />
-        <p>Thank you so much for your support!</p>
-
-        <p>
-          The Unlock Code(s), along with some extra tips, are on their way to your email inbox
-          right now! Please keep the Unlock Code(s) around for your own personal records. Emails
-          take up to 12+ hours to arrive, and be sure to check your spam folder.
+        <p className="my-4">
+          The Unlock Code(s) are on their way to your email inbox right now!
+          Please keep them around for your own personal records.
         </p>
 
-        {groups.length === 1 && (
-          <>
-            {codeCount === 1 && (
-              <p>Here is your Unlock Code:</p>
-            )}
-            {codeCount > 1 && (
-              <p>Here are your Unlock Codes:</p>
-            )}
-            {groups[0].codes.map((code) => (
-              <p key={code}><strong>{code}</strong></p>
-            ))}
-          </>
-        )}
-
-        {groups.length > 1 && (
-          <>
-            <p>Here are your Unlock Codes:</p>
-
-            {groups.map((group, index) => (
-              <React.Fragment key={index}>
-                <p>{group.name}</p>
-
-                {group.codes.map((code) => (
-                  <p key={code}><strong>{code}</strong></p>
-                ))}
-              </React.Fragment>
-            ))}
-          </>
-        )}
-
-        <p>
-          Thanks again!
-        </p>
-        <hr />
         <p className="mb-0">
-          PS. If you encounter any issues when entering an Unlock Code please reach out
-          via <a href="mailto:acrossthekyle@gmail.com">email</a>, or through
-          the "Contact Developer" feature in the ConnectIQ mobile app.
+          Thanks again!
         </p>
       </div>
     );
@@ -346,10 +309,10 @@ const Purchase = () => {
           data-bs-dismiss="alert"
           onClick={handleOnReset}
         />
-        <p>
+        <p className="mt-4">
           Something went wrong with generating the Unlock Code(s), but
-          your payment was still processed. Please reach out via the
-          "Contact Developer" feature in the ConnectIQ mobile app.
+          your payment was still processed. Please reach out via <a href="mailto:acrossthekyle@gmail.com">email</a>,
+          or through the "Contact Developer" feature in the ConnectIQ mobile app.
         </p>
       </div>
     );
