@@ -289,7 +289,8 @@ const Purchase = () => {
 
         <p>
           The Unlock Code(s), along with some extra tips, are on their way to your email inbox
-          right now! Please keep the Unlock Code(s) around for your own personal records.
+          right now! Please keep the Unlock Code(s) around for your own personal records. Emails
+          take up to 12+ hours to arrive, and be sure to check your spam folder.
         </p>
 
         {groups.length === 1 && (
