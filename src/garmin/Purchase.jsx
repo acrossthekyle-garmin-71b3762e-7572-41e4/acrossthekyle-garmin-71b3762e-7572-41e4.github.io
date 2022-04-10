@@ -231,7 +231,7 @@ const Purchase = () => {
   const handlePayPalApproval = (data, actions) => {
     setProcessing(true);
 
-    return actions.order.capture().then(() => {
+    return actions.order.capture().then((orderData) => {
       let items = [];
 
       if (choice === 'all') {
@@ -248,13 +248,12 @@ const Purchase = () => {
         }];
       }
 
-      // prod: https://api.acrossthekyle.com/api/garmin/generate
-      // local: http://localhost/api/garmin/generate
       axios.post('https://api.acrossthekyle.com/api/garmin/generate', {
         choice: getName(),
         items,
         email,
-        quantity
+        quantity,
+        orderId: orderData.id
       })
         .then((response) => {
           setProcessing(false);
