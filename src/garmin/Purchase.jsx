@@ -142,7 +142,6 @@ const Purchase = () => {
   const [step, setStep] = useState(1);
   const [successful, setSuccessful] = useState(undefined);
   const [groups, setGroups] = useState();
-  const [codeCount, setCodeCount] = useState(1);
   const [quantity, setQuantity] = useState(1);
   const [processing, setProcessing] = useState(false);
 
@@ -156,7 +155,6 @@ const Purchase = () => {
     setQuantity(1);
     setStep(1);
     setGroups(null);
-    setCodeCount(1);
 
     if (removeSearchParams) {
       setSearchParams({});
@@ -260,7 +258,6 @@ const Purchase = () => {
         .then((response) => {
           setProcessing(false);
           setGroups(response.data.groups);
-          setCodeCount(response.data.count);
           setSuccessful(true);
         })
         .catch(() => {
