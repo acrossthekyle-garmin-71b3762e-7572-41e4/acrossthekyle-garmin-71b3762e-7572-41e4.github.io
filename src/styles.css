@@ -121,3 +121,7 @@ img.me {
     flex-direction: column-reverse;
   }
 }
+
+.my-home-buttons .btn:first-of-type {
+  min-width: 193px;
+}

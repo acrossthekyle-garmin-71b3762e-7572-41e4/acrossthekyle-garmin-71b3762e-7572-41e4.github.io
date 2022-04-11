@@ -87,7 +87,7 @@ const Garmin = () => {
 
   return (
     <div className="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-		  <header className="mb-auto">
+		  <header className="mb-sm-auto">
 		    <div>
 		      <h3 className="float-md-start mb-0 my-logo" onClick={() => navigate('/')}>
             acrossthekyle
@@ -113,7 +113,7 @@ const Garmin = () => {
 		    </div>
 		  </header>
 
-		  <main className="px-3">
+		  <main className="px-sm-3">
         <h1 className="pb-4 mt-4">{getPageTitle()}</h1>
 
         <Outlet />

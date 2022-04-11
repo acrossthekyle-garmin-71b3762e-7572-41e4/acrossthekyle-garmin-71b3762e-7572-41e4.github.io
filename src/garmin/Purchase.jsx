@@ -390,11 +390,11 @@ const Purchase = () => {
                   htmlFor="email"
                   className="form-label no-shadow"
                 >
-                  Email address <span className="text-danger">*</span>
+                  Email <span className="text-danger">*</span>
                 </label>
                 <input type="email" className="form-control" id="email" onChange={handleEmail} value={email} />
                 <div className="form-text no-shadow text-start">
-                  The Unlock Code will be sent to this email address.
+                  The Unlock Code(s) will be sent to this email.
                 </div>
               </div>
             </div>
