@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-
-import { apps } from './store';
+import { useSelector } from 'react-redux'
 
 const Modal = ({ cost, description, features, id, name, onPurchase, settings, trial, type, url }) => {
 	return (
@@ -51,18 +50,24 @@ const Modal = ({ cost, description, features, id, name, onPurchase, settings, tr
 const Apps = () => {
 	const navigate = useNavigate();
 
-	const onPurchase = (app) => {
-		navigate(`/garmin/purchase?app=${app.key}`);
+	const apps = useSelector(state => state.garmin.apps);
+
+	const onPurchase = (key) => {
+		navigate(`/garmin/purchase?app=${key}`);
 	};
+
+	if (apps === undefined) {
+    return null;
+  }
 
 	return (
 		<div className="container mb-4 mt-4">
 		  <div className="row row-cols-1 row-cols-md-2">
-		  	{apps.map((app, index) => (
+		  	{apps?.map((app, index) => (
 		  		<div key={app.key}>
 		  			<Modal
 		  				id={app.key}
-		  				onPurchase={() => onPurchase(app)}
+		  				onPurchase={() => onPurchase(app.key)}
 		  				{...app}
 		  			/>
 

@@ -1,4 +1,3 @@
-import 'animate.css';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
@@ -16,7 +15,11 @@ import GarminHelp from './garmin/Help';
 import GarminPurchase from './garmin/Purchase';
 import GarminManual from './garmin/Manual';
 
+const axios = require('axios').default;
+
 function App() {
+  axios.defaults.baseURL = (process.env.NODE_ENV === 'development' ? 'http://localhost' : 'https://api.acrossthekyle.com');
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />

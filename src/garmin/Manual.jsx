@@ -1,14 +1,13 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-
-import { apps } from './store';
+import { useSelector } from 'react-redux'
 
 const axios = require('axios').default;
 
 const Manual = () => {
-	const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const [choice, setChoice] = useState();
+  const [choice, setChoice] = useState(undefined);
   const [quantity, setQuantity] = useState(1);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
@@ -16,13 +15,8 @@ const Manual = () => {
 	const [processing, setProcessing] = useState(false);
   const [successful, setSuccessful] = useState(undefined);
 
-  const getName = useCallback(() => {
-    if (!choice) {
-      return 'None';
-    }
-
-    return apps.filter(({ key }) => choice === key)[0].name;
-  }, [choice]);
+  const apps = useSelector(state => state.garmin.apps);
+  const bundles = useSelector(state => state.garmin.bundles);
 
   const handleChoice = (selection, type) => {
     setChoice(selection);
@@ -48,16 +42,8 @@ const Manual = () => {
   const onSubmit = () => {
   	setProcessing(true);
 
-  	const items = [{
+    axios.post('/api/garmin/manual', {
       choice,
-      name: getName()
-    }];
-
-    const url = (process.env.NODE_ENV === 'development' ? 'http://localhost/api/garmin/manual' : 'https://api.acrossthekyle.com/api/garmin/manual');
-
-    axios.post(url, {
-      choice: getName(),
-      items,
       email,
       quantity,
       username,
@@ -65,27 +51,23 @@ const Manual = () => {
     })
       .then((response) => {
         setProcessing(false);
+
         setSuccessful(true);
       })
       .catch(() => {
         setProcessing(false);
+
         setSuccessful(false);
       });
   };
 
-  const handleOnReset = () => {
-    window.location.reload();
-  };
+  if (apps === undefined || bundles === undefined) {
+    return null;
+  }
 
   if (successful === true) {
     return (
-      <div className="alert alert-success alert-dismissible no-shadow text-start" role="alert">
-        <button
-          type="button"
-          className="btn-close my-alert-btn-close"
-          data-bs-dismiss="alert"
-          onClick={handleOnReset}
-        />
+      <div className="alert alert-success no-shadow text-start" role="alert">
         <p className="my-0">
           Success
         </p>
@@ -95,13 +77,7 @@ const Manual = () => {
 
   if (successful === false) {
     return (
-      <div className="alert alert-danger alert-dismissible no-shadow text-start" role="alert">
-        <button
-          type="button"
-          className="btn-close my-alert-btn-close"
-          data-bs-dismiss="alert"
-          onClick={handleOnReset}
-        />
+      <div className="alert alert-danger no-shadow text-start" role="alert">
         <p className="my-0">
           Failure
         </p>
@@ -169,10 +145,20 @@ const Manual = () => {
           <div className="mb-3 text-start">
           	<div className="dropdown w-100">
               <button className="btn btn-light dropdown-toggle w-100 text-start my-dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                Selection: {getName()}
+                Selection: {choice}
               </button>
               <ul className="dropdown-menu dropdown-menu-light w-100">
-                {apps.map(({ key, name }) => (
+                {bundles?.map(({ key, name }) => (
+                  <li key={name}>
+                    <button
+                      className={`dropdown-item ${key === choice ? 'active' : ''}`}
+                      onClick={() => handleChoice(key)}
+                    >
+                      {String(name)}
+                    </button>
+                  </li>
+                ))}
+                {apps?.map(({ key, name }) => (
                   <li key={name}>
                     <button
                       className={`dropdown-item ${key === choice ? 'active' : ''}`}

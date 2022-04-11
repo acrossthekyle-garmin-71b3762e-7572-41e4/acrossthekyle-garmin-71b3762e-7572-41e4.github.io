@@ -1,12 +1,62 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux'
 
-import { pages } from './store';
+import { onLoaded } from '../store/garminActions';
+
+const axios = require('axios').default;
+
+const pages = [
+  {
+    name: 'Home',
+    title: '',
+    key: 'home',
+    path: '/garmin'
+  },
+  {
+    name: 'Apps',
+    title: 'Apps',
+    key: 'apps',
+    path: '/garmin/apps'
+  },
+  {
+    name: 'Purchase',
+    title: 'Purchase an Unlock Code',
+    key: 'purchase',
+    path: '/garmin/purchase'
+  },
+  {
+    name: 'Donate',
+    title: 'Donate and Support My Work',
+    key: 'donate',
+    path: '/garmin/donate'
+  },
+  {
+    name: 'Help',
+    title: 'Help',
+    key: 'help',
+    path: '/garmin/help'
+  }
+];
 
 const Garmin = () => {
   const location = useLocation();
 
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const apps = useSelector(state => state.garmin.apps);
+  const loaded = useSelector(state => state.garmin.loaded);
+
+  useEffect(() => {
+    if (apps === undefined) {
+      axios.get('/api/garmin/browse')
+        .then((response) => {
+          dispatch(onLoaded(response.data.apps, response.data.bundles));
+        });
+    }
+  }, [apps, dispatch]);
 
   const getPageTitle = () => {
     const results = pages.filter(({ path }) => path === location.pathname);
@@ -14,11 +64,32 @@ const Garmin = () => {
     return results.length > 0 ? results[0].title : '';
   };
 
+  if (loaded === false) {
+    return (
+      <div className="my-loader bg-dark">
+        <div className="d-flex justify-content-center align-items-center">
+          <div className="spinner-border" role="status" />
+        </div>
+      </div>
+    );
+  }
+
+  if (loaded === true && apps === undefined) {
+    return (
+      <div className="alert alert-danger no-shadow text-start" role="alert">
+        <h4 className="alert-heading">Error</h4>
+        <p className="mt-4">
+          Opps! Something went wrong. Please try refreshing.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
 		  <header className="mb-auto">
 		    <div>
-		      <h3 className="float-md-start mb-0 my-logo" onClick={() => navigate('/garmin')}>
+		      <h3 className="float-md-start mb-0 my-logo" onClick={() => navigate('/')}>
             acrossthekyle
           </h3>
 
@@ -31,7 +102,7 @@ const Garmin = () => {
 		      		return (
                 <a
                   className={`nav-link ${path === location.pathname ? 'active' : ''}`}
-                  href={path}
+                  href={`#${path}`}
                   key={key}
                 >
                   {name}

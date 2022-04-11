@@ -1,13 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from "react-router-dom";
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
-
-import { apps, bundles } from './store';
+import { useSelector } from 'react-redux'
 
 const axios = require('axios').default;
 
-const Summary = ({ cost, email, name, quantity, step }) => {
+const Summary = ({ choice, email, name, quantity, step }) => {
+  const [cost, setCost] = useState(undefined);
   const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    axios.post('/api/garmin/calculate', {
+      choice,
+      quantity
+    })
+      .then((response) => {
+        setCost(response.data.cost);
+      });
+  }, [choice, quantity]);
 
   return (
     <div className="bg-dark position-relative mb-3">
@@ -38,7 +48,7 @@ const Summary = ({ cost, email, name, quantity, step }) => {
 
             <div className="d-flex justify-content-between align-items-center p-2">
               <div className="fw-bold">Total</div>
-              <div>${cost}.00</div>
+              <div>{cost !== undefined ? '$' + cost : 'Calculating...'}</div>
             </div>
 
             {email && step === 3 && (
@@ -60,7 +70,7 @@ const Summary = ({ cost, email, name, quantity, step }) => {
 const Choices = ({ choice, choices, onChangeQuantity, onChoose, quantity, type }) => {
   return (
     <>
-      {choices.map(({ cost, key, name, sale }) => {
+      {choices?.map(({ cost, key, name, sale }) => {
         const chosen = choice === key;
 
         if (choice !== undefined && !chosen) {
@@ -136,16 +146,19 @@ const Choices = ({ choice, choices, onChangeQuantity, onChoose, quantity, type }
 const Purchase = () => {
   let [searchParams, setSearchParams] = useSearchParams();
 
+  const [groups, setGroups] = useState();
+  const [quantity, setQuantity] = useState(1);
 	const [choice, setChoice] = useState(searchParams.has('app') ? searchParams.get('app') : undefined);
   const [choiceType, setChoiceType] = useState('app');
   const [email, setEmail] = useState('');
   const [step, setStep] = useState(1);
   const [successful, setSuccessful] = useState(undefined);
-  const [groups, setGroups] = useState();
-  const [quantity, setQuantity] = useState(1);
   const [processing, setProcessing] = useState(false);
 
   const [{ isPending }] = usePayPalScriptReducer();
+
+  const apps = useSelector(state => state.garmin.apps);
+  const bundles = useSelector(state => state.garmin.bundles);
 
   const handleOnCancel = useCallback((removeSearchParams = true) => {
     setSuccessful(undefined);
@@ -154,7 +167,7 @@ const Purchase = () => {
     setEmail('');
     setQuantity(1);
     setStep(1);
-    setGroups(null);
+    setGroups(undefined);
 
     if (removeSearchParams) {
       setSearchParams({});
@@ -167,26 +180,19 @@ const Purchase = () => {
     };
   }, [handleOnCancel]);
 
-  const getCost = useCallback(() => {
+  const getName = useCallback(() => {
     if (!choice) {
       return '';
     }
 
-    var items = choiceType === 'app' ? apps : bundles;
-    var result = items.filter(({ key }) => choice === key)[0];
-
-    return (result.sale !== undefined ? result.sale : result.cost) * quantity;
-  }, [choice, choiceType, quantity]);
-
-  const getName = useCallback(() => {
-    if (!choice) {
+    if (!apps || !bundles) {
       return '';
     }
 
     var items = choiceType === 'app' ? apps : bundles;
 
     return items.filter(({ key }) => choice === key)[0].name;
-  }, [choice, choiceType]);
+  }, [apps, bundles, choice, choiceType]);
 
   const handleChoice = (selection, type) => {
     setChoice(selection);
@@ -203,22 +209,33 @@ const Purchase = () => {
   };
 
   const previous = () => {
-    setGroups(null);
+    setGroups(undefined);
     setSuccessful(undefined);
-
     setStep(step - 1)
+  };
+
+  const calculateCost = async () => {
+    return axios.post('/api/garmin/calculate', {
+      choice,
+      quantity
+    })
+      .then((response) => {
+        return response.data.cost;
+      });
   };
 
   const handleOnReset = () => {
     window.location.reload();
   };
 
-  const handlePayPalCreateOrder = (data, actions) => {
+  const handlePayPalCreateOrder = async (data, actions) => {
+    const value = await calculateCost();
+
     return actions.order.create({
       purchase_units: [
         {
           amount: {
-            value: getCost(),
+            value,
           },
           description: getName()
         },
@@ -230,27 +247,8 @@ const Purchase = () => {
     setProcessing(true);
 
     return actions.order.capture().then((orderData) => {
-      let items = [];
-
-      if (choice === 'all') {
-        items = apps.map(({ key, name }) => {
-          return {
-            choice: key,
-            name
-          };
-        });
-      } else {
-        items = [{
-          choice,
-          name: getName()
-        }];
-      }
-
-      const url = (process.env.NODE_ENV === 'development' ? 'http://localhost/api/garmin/generate' : 'https://api.acrossthekyle.com/api/garmin/generate');
-
-      axios.post(url, {
-        choice: getName(),
-        items,
+      axios.post('/api/garmin/generate', {
+        choice,
         email,
         quantity,
         orderId: orderData.id
@@ -274,7 +272,11 @@ const Purchase = () => {
     alert('Something went wrong with processing your payment, please confirm your payment details are correct, and try again.');
   };
 
-  if (successful === true && groups !== undefined) {
+  if (apps === undefined || bundles === undefined) {
+    return null;
+  }
+
+  if (successful === true && groups?.length > 0) {
     return (
       <div className="alert alert-success alert-dismissible no-shadow text-start" role="alert">
         <h4 className="alert-heading">Thank you so much for your support!</h4>
@@ -296,7 +298,7 @@ const Purchase = () => {
     );
   }
 
-  if (successful === false) {
+  if (successful === false || (successful === true && groups?.length === 0)) {
     return (
       <div className="alert alert-danger alert-dismissible no-shadow text-start" role="alert">
         <h4 className="alert-heading">Unlock Code Generation Error</h4>
@@ -327,7 +329,7 @@ const Purchase = () => {
 
       <div className="my-form mb-4">
         {step > 1 && (
-          <Summary cost={getCost()} email={email} name={getName()} quantity={quantity} step={step} />
+          <Summary choice={choice} email={email} name={getName()} quantity={quantity} step={step} />
         )}
 
         {step === 1 && (
@@ -439,7 +441,6 @@ const Purchase = () => {
                   label:  'pay'
                 }}
                 createOrder={handlePayPalCreateOrder}
-                forceReRender={[getCost()]}
                 onApprove={handlePayPalApproval}
                 onError={handlePayPalError}
               />

@@ -14,7 +14,7 @@ const Home = () => {
           <button
             type="button"
             className="btn btn-lg btn-success fw-bold mt-4"
-            onClick={() => navigate('/garmin')}
+            onClick={() => navigate('garmin')}
           >
             Go to Garmin Apps
           </button>
