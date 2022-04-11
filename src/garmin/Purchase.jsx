@@ -441,6 +441,7 @@ const Purchase = () => {
                   label:  'pay'
                 }}
                 createOrder={handlePayPalCreateOrder}
+                forceReRender={[choice, quantity]}
                 onApprove={handlePayPalApproval}
                 onError={handlePayPalError}
               />
