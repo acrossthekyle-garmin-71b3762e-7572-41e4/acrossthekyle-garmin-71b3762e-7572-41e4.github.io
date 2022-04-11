@@ -8,7 +8,7 @@ const Home = ({ onPress }) => {
 
 	return (
 		<>
-			<img src={me} className="rounded mx-auto d-block mb-4 me" alt="" />
+			<img src={me} className="rounded mx-auto d-block my-4 mt-4 mt-sm-0 me" alt="" />
 
 			<p className="lead px-3">
 	    	Hello!

@@ -10,7 +10,7 @@ const Home = () => {
 
 		  <main className="px-3">
 	    	<h1 className="pb-4 mt-4">acrossthekyle</h1>
-        <div className="text-center">
+        <div className="text-center my-home-buttons">
           <button
             type="button"
             className="btn btn-lg btn-secondary fw-bold mt-4"

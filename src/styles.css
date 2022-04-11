@@ -56,8 +56,6 @@ body {
   }
 }
 
-/* Purchase */
-
 .opacity-50 { opacity: .5; }
 
 .my-form {
@@ -120,6 +118,10 @@ img.me {
   .my-home-buttons {
     flex-direction: column-reverse;
   }
+}
+
+.my-home-buttons .btn {
+  text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
 }
 
 .my-home-buttons .btn:first-of-type {

@@ -61,7 +61,7 @@ const Apps = () => {
   }
 
 	return (
-		<div className="container mb-4 mt-4">
+		<div className="container mb-4">
 		  <div className="row row-cols-1 row-cols-md-2">
 		  	{apps?.map((app, index) => (
 		  		<div key={app.key}>

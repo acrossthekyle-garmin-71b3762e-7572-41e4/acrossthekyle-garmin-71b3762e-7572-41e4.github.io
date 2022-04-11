@@ -21,13 +21,13 @@ const pages = [
   },
   {
     name: 'Purchase',
-    title: 'Purchase an Unlock Code',
+    title: 'Purchase a Code',
     key: 'purchase',
     path: '/garmin/purchase'
   },
   {
     name: 'Donate',
-    title: 'Donate and Support My Work',
+    title: 'Support My Work',
     key: 'donate',
     path: '/garmin/donate'
   },
@@ -64,6 +64,8 @@ const Garmin = () => {
     return results.length > 0 ? results[0].title : '';
   };
 
+  const title = getPageTitle();
+
   if (loaded === false) {
     return (
       <div className="my-loader bg-dark">
@@ -89,7 +91,7 @@ const Garmin = () => {
     <div className="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
 		  <header className="mb-sm-auto">
 		    <div>
-		      <h3 className="float-md-start mb-0 my-logo" onClick={() => navigate('/')}>
+		      <h3 className="float-md-start mb-0 my-logo" onClick={() => navigate('/garmin')}>
             acrossthekyle
           </h3>
 
@@ -114,7 +116,7 @@ const Garmin = () => {
 		  </header>
 
 		  <main className="px-sm-3">
-        <h1 className="pb-4 mt-4">{getPageTitle()}</h1>
+        {title !== '' && <h1 className="pb-4 mt-4">{title}</h1>}
 
         <Outlet />
       </main>
