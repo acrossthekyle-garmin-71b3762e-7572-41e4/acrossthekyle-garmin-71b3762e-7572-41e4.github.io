@@ -71,7 +71,7 @@ const Summary = ({ choice, email, name, quantity, step }) => {
 const Choices = ({ choice, choices, onChangeQuantity, onChoose, quantity, type }) => {
   return (
     <>
-      {choices?.map(({ cost, key, name, sale }) => {
+      {choices?.map(({ cost, key, name, sale }, index) => {
         const chosen = choice === key;
 
         if (choice !== undefined && !chosen) {
@@ -83,17 +83,14 @@ const Choices = ({ choice, choices, onChangeQuantity, onChoose, quantity, type }
             <div
               className={
                 [
-                  'list-group-item',
-                  'py-3',
-                  'no-shadow',
-                  'rounded-1',
+                  `list-group-item py-3 no-shadow rounded-1 ${index === choices.length - 1 ? '' : 'mb-2'}`,
                   chosen ? 'bg-primary' : '',
                   chosen ? 'selected' : ''
                 ].join(' ')
               }
             >
               <div className="row">
-                <div className={['col', 'text-start', chosen ? 'text-light' : ''].join(' ')}>
+                <div className={['col text-start', chosen ? 'text-light' : ''].join(' ')}>
                   {name}
                   <span className="d-block small">
                     {sale !== undefined ? (
@@ -330,7 +327,7 @@ const Purchase = () => {
         </div>
       )}
 
-      <div className="my-form mb-4">
+      <div className="my-form mb-sm-4">
         {step > 1 && (
           <Summary choice={choice} email={email} name={getName()} quantity={quantity} step={step} />
         )}

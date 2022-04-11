@@ -61,10 +61,10 @@ const Apps = () => {
   }
 
 	return (
-		<div className="container mb-4">
+		<div className="container mb-sm-4">
 		  <div className="row row-cols-1 row-cols-md-2">
 		  	{apps?.map((app, index) => (
-		  		<div key={app.key}>
+		  		<div key={app.key} className="px-0 px-sm-3">
 		  			<Modal
 		  				id={app.key}
 		  				onPurchase={() => onPurchase(app.key)}
@@ -72,7 +72,7 @@ const Apps = () => {
 		  			/>
 
 			  		<div className="col">
-				  		<div className="card mb-4 rounded-1">
+				  		<div className={`card ${index === apps.length - 1 ? '' : 'mb-3 mb-sm-4'} rounded-1`}>
 							  <div className="card-body h-100 bg-light">
 							    <h5 className="card-title text-dark no-shadow">{app.name}</h5>
 							    <p className="card-text text-secondary no-shadow">{app.snippet}</p>

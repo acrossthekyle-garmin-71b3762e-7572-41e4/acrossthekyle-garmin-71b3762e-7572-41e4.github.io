@@ -88,7 +88,7 @@ const Garmin = () => {
   }
 
   return (
-    <div className="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div className="cover-container d-flex w-100 h-100 p-3 pb-0 mx-auto flex-column">
 		  <header className="mb-sm-auto">
 		    <div>
 		      <h3 className="float-md-start mb-0 my-logo" onClick={() => navigate('/garmin')}>
