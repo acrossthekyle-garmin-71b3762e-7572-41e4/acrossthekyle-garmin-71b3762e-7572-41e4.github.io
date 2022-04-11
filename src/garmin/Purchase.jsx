@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from "react-router-dom";
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { useSelector } from 'react-redux'
+import { useNavigate } from "react-router-dom";
 
 const axios = require('axios').default;
 
@@ -144,6 +145,8 @@ const Choices = ({ choice, choices, onChangeQuantity, onChoose, quantity, type }
 };
 
 const Purchase = () => {
+  const navigate = useNavigate();
+
   let [searchParams, setSearchParams] = useSearchParams();
 
   const [groups, setGroups] = useState();
@@ -225,7 +228,7 @@ const Purchase = () => {
   };
 
   const handleOnReset = () => {
-    window.location.reload();
+    navigate('/');
   };
 
   const handlePayPalCreateOrder = async (data, actions) => {
