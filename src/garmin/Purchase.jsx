@@ -95,11 +95,11 @@ const Choices = ({ choice, choices, onChangeQuantity, onChoose, quantity, type }
                   <span className="d-block small">
                     {sale !== undefined ? (
                       <>
-                        <span className="text-decoration-line-through text-muted">${String(cost)}.00</span>
-                        <span> ${String(sale)}.00</span>
+                        <span className={`text-decoration-line-through ${chosen ? 'text-light' : 'text-muted'}`}>${String(cost)}</span>
+                        <span className="text-danger"> ${String(sale)}</span>
                       </>
                     ) : (
-                      <span>${String(cost)}.00</span>
+                      <span>${String(cost)}</span>
                     )}
                   </span>
                 </div>
