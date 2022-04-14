@@ -1,8 +1,7 @@
 import { LOADED } from './garminTypes';
 
 const INITIAL_STATE = {
-  apps: undefined,
-  bundles: undefined,
+  products: undefined,
   loaded: false,
 };
 
@@ -11,8 +10,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     case LOADED:
      	return {
 	      ...state,
-	      apps: action.payload.apps,
-	      bundles: action.payload.bundles,
+	      products: action.payload,
         loaded: true
      	};
 

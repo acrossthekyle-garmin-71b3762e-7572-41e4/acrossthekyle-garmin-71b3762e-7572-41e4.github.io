@@ -26,17 +26,20 @@ function App() {
       <Route path="/garmin" element={<Garmin />}>
         <Route index element={<GarminHome />} />
         <Route path="apps" element={<GarminApps />} />
-        <Route path="purchase" element={
-          <PayPalScriptProvider
-            options={{
-              'client-id': (process.env.NODE_ENV === 'development' ? 'Abny9Qva83EbxXxthpqaTYHifJGptx73dZX6uWh-z8UDaF-xK8g5sPkSz59_YR4Bwy696QjpQ5-r5meb' : 'AfukE7xeOHI3Qh5RGage7d9BYnxG0NHw_WEq0H_aoTRfEDMjOdRVAj7EpoyVQfSaoDDDGBuqqV02jEUu'),
-              currency: 'USD',
-              'disable-funding': ['card', 'credit', 'paylater']
-            }}
-          >
-            <GarminPurchase />
-          </PayPalScriptProvider>
-        } />
+        <Route
+          path="purchase/*"
+          element={
+            <PayPalScriptProvider
+              options={{
+                'client-id': (process.env.NODE_ENV === 'development' ? 'Abny9Qva83EbxXxthpqaTYHifJGptx73dZX6uWh-z8UDaF-xK8g5sPkSz59_YR4Bwy696QjpQ5-r5meb' : 'AfukE7xeOHI3Qh5RGage7d9BYnxG0NHw_WEq0H_aoTRfEDMjOdRVAj7EpoyVQfSaoDDDGBuqqV02jEUu'),
+                currency: 'USD',
+                'disable-funding': ['card', 'credit', 'paylater']
+              }}
+            >
+              <GarminPurchase />
+            </PayPalScriptProvider>
+          }
+        />
         <Route path="donate" element={<GarminDonate />} />
         <Route path="help" element={<GarminHelp />} />
         <Route path="manual" element={<GarminManual />} />

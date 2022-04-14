@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 const Modal = ({ cost, description, features, id, name, onPurchase, settings, trial, type, url }) => {
 	return (
-		<div className="modal" id={`${id}_modal`} tabIndex="-1">
+		<div className="modal" id={`product_${id}_modal`} tabIndex="-1">
 		  <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 		    <div className="modal-content">
 		      <div className="modal-header">
@@ -50,37 +50,37 @@ const Modal = ({ cost, description, features, id, name, onPurchase, settings, tr
 const Apps = () => {
 	const navigate = useNavigate();
 
-	const apps = useSelector(state => state.garmin.apps);
+	const products = useSelector(state => state.garmin.products);
 
-	const onPurchase = (key) => {
-		navigate(`/garmin/purchase?app=${key}`);
+	const onPurchase = (uuid) => {
+		navigate(`/garmin/purchase/${uuid}`);
 	};
 
-	if (apps === undefined) {
+	if (products === undefined) {
     return null;
   }
 
 	return (
 		<div className="container mb-sm-4">
 		  <div className="row row-cols-1 row-cols-md-2">
-		  	{apps?.map((app, index) => (
-		  		<div key={app.key} className="px-0 px-sm-3">
+		  	{products?.filter((product) => product.type !== 'bundle').map((product, index) => (
+		  		<div key={product.uuid} className="px-0 px-sm-3">
 		  			<Modal
-		  				id={app.key}
-		  				onPurchase={() => onPurchase(app.key)}
-		  				{...app}
+		  				id={product.uuid}
+		  				onPurchase={() => onPurchase(product.uuid)}
+		  				{...product}
 		  			/>
 
 			  		<div className="col">
-				  		<div className={`card ${index === apps.length - 1 ? '' : 'mb-3 mb-sm-4'} rounded-1`}>
+				  		<div className={`card ${index === products.length - 1 ? '' : 'mb-3 mb-sm-4'} rounded-1`}>
 							  <div className="card-body h-100 bg-light">
-							    <h5 className="card-title text-dark no-shadow">{app.name}</h5>
-							    <p className="card-text text-secondary no-shadow">{app.snippet}</p>
+							    <h5 className="card-title text-dark no-shadow">{product.name}</h5>
+							    <p className="card-text text-secondary no-shadow">{product.snippet}</p>
 							    <button
 							    	type="button"
 							    	className="btn btn-success"
 							    	data-bs-toggle="modal"
-							    	data-bs-target={`#${app.key}_modal`}
+							    	data-bs-target={`#product_${product.uuid}_modal`}
 							    >
 									  Learn More
 									</button>

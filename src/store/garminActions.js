@@ -1,11 +1,8 @@
 import { LOADED } from './garminTypes';
 
-export const onLoaded = (apps, bundles) => {
+export const onLoaded = (payload) => {
   return {
 		type: LOADED,
-		payload: {
-			apps,
-			bundles,
-		}
+		payload
   };
 };

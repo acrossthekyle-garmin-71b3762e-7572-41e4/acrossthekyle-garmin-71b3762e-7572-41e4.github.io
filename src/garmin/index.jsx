@@ -46,17 +46,17 @@ const Garmin = () => {
 
   const dispatch = useDispatch();
 
-  const apps = useSelector(state => state.garmin.apps);
+  const products = useSelector(state => state.garmin.products);
   const loaded = useSelector(state => state.garmin.loaded);
 
   useEffect(() => {
-    if (apps === undefined) {
+    if (products === undefined) {
       axios.get('/api/garmin/browse')
         .then((response) => {
-          dispatch(onLoaded(response.data.apps, response.data.bundles));
+          dispatch(onLoaded(response.data));
         });
     }
-  }, [apps, dispatch]);
+  }, [products, dispatch]);
 
   const getPageTitle = () => {
     const results = pages.filter(({ path }) => path === location.pathname);
@@ -76,7 +76,7 @@ const Garmin = () => {
     );
   }
 
-  if (loaded === true && apps === undefined) {
+  if (loaded === true && products === undefined) {
     return (
       <div className="alert alert-danger no-shadow text-start" role="alert">
         <h4 className="alert-heading">Error</h4>
@@ -103,7 +103,7 @@ const Garmin = () => {
 
 		      		return (
                 <a
-                  className={`nav-link ${path === location.pathname ? 'active' : ''}`}
+                  className={`nav-link ${location.pathname.includes(path) ? 'active' : ''}`}
                   href={`#${path}`}
                   key={key}
                 >

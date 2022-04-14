@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSearchParams } from "react-router-dom";
-import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+import { useParams } from "react-router-dom";
+import { PayPalButtons } from '@paypal/react-paypal-js';
 import { useSelector } from 'react-redux'
 import { useNavigate } from "react-router-dom";
 
@@ -68,18 +68,18 @@ const Summary = ({ choice, email, name, quantity, step }) => {
   );
 };
 
-const Choices = ({ choice, choices, onChangeQuantity, onChoose, quantity, type }) => {
+const Choices = ({ choice, choices, onChangeQuantity, onChoose, quantity }) => {
   return (
     <>
-      {choices?.map(({ cost, key, name, sale }, index) => {
-        const chosen = choice === key;
+      {choices?.map(({ cost, name, sale, uuid }, index) => {
+        const chosen = choice === uuid;
 
         if (choice !== undefined && !chosen) {
           return null;
         }
 
         return (
-          <React.Fragment key={key}>
+          <React.Fragment key={uuid}>
             <div
               className={
                 [
@@ -90,7 +90,7 @@ const Choices = ({ choice, choices, onChangeQuantity, onChoose, quantity, type }
               }
             >
               <div className="row">
-                <div className={['col text-start', chosen ? 'text-light' : ''].join(' ')}>
+                <div className={['col-7 col-md-8 text-start', chosen ? 'text-light' : ''].join(' ')}>
                   {name}
                   <span className="d-block small">
                     {sale !== undefined ? (
@@ -103,7 +103,7 @@ const Choices = ({ choice, choices, onChangeQuantity, onChoose, quantity, type }
                     )}
                   </span>
                 </div>
-                <div className="col d-flex align-items-center justify-content-end">
+                <div className="col-5 col-md-4 d-flex align-items-center justify-content-end">
                   {chosen ? (
                     <div className="dropdown">
                       <button className="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
@@ -126,7 +126,7 @@ const Choices = ({ choice, choices, onChangeQuantity, onChoose, quantity, type }
                     <button
                       type="button"
                       className="btn btn-success"
-                      onClick={() => onChoose(key, type)}
+                      onClick={() => onChoose(uuid)}
                     >
                       Buy Code
                     </button>
@@ -144,35 +144,29 @@ const Choices = ({ choice, choices, onChangeQuantity, onChoose, quantity, type }
 const Purchase = () => {
   const navigate = useNavigate();
 
-  let [searchParams, setSearchParams] = useSearchParams();
+  const params = useParams();
 
-  const [groups, setGroups] = useState();
   const [quantity, setQuantity] = useState(1);
-	const [choice, setChoice] = useState(searchParams.has('app') ? searchParams.get('app') : undefined);
-  const [choiceType, setChoiceType] = useState('app');
+	const [choice, setChoice] = useState(params['*'] || undefined);
+  const [filterBy, setFilterBy] = useState('all');
   const [email, setEmail] = useState('');
   const [step, setStep] = useState(1);
   const [successful, setSuccessful] = useState(undefined);
   const [processing, setProcessing] = useState(false);
 
-  const [{ isPending }] = usePayPalScriptReducer();
+  const products = useSelector(state => state.garmin.products);
 
-  const apps = useSelector(state => state.garmin.apps);
-  const bundles = useSelector(state => state.garmin.bundles);
-
-  const handleOnCancel = useCallback((removeSearchParams = true) => {
+  const handleOnCancel = useCallback((redirect = true) => {
     setSuccessful(undefined);
     setChoice(undefined);
-    setChoiceType('app');
     setEmail('');
     setQuantity(1);
     setStep(1);
-    setGroups(undefined);
 
-    if (removeSearchParams) {
-      setSearchParams({});
+    if (redirect) {
+      navigate('/garmin/purchase');
     }
-  }, [setSearchParams]);
+  }, [navigate]);
 
   useEffect(() => {
     return () => {
@@ -181,22 +175,15 @@ const Purchase = () => {
   }, [handleOnCancel]);
 
   const getName = useCallback(() => {
-    if (!choice) {
+    if (!choice || !products) {
       return '';
     }
 
-    if (!apps || !bundles) {
-      return '';
-    }
+    return products.filter(({ uuid }) => choice === uuid)[0].name;
+  }, [products, choice]);
 
-    var items = choiceType === 'app' ? apps : bundles;
-
-    return items.filter(({ key }) => choice === key)[0].name;
-  }, [apps, bundles, choice, choiceType]);
-
-  const handleChoice = (selection, type) => {
-    setChoice(selection);
-    setChoiceType(type);
+  const handleChoice = (uuid) => {
+    setChoice(uuid);
     setQuantity(1);
   };
 
@@ -209,12 +196,15 @@ const Purchase = () => {
   };
 
   const previous = () => {
-    setGroups(undefined);
     setSuccessful(undefined);
     setStep(step - 1)
   };
 
   const calculateCost = async () => {
+    if (!choice) {
+      return 0.00;
+    }
+
     return axios.post('/api/garmin/calculate', {
       choice,
       quantity
@@ -255,8 +245,7 @@ const Purchase = () => {
       })
         .then((response) => {
           setProcessing(false);
-          setGroups(response.data.groups);
-          setSuccessful(true);
+          setSuccessful(response.data === 'success');
         })
         .catch(() => {
           setProcessing(false);
@@ -272,11 +261,11 @@ const Purchase = () => {
     alert('Something went wrong with processing your payment, please confirm your payment details are correct, and try again.');
   };
 
-  if (apps === undefined || bundles === undefined) {
+  if (products === undefined) {
     return null;
   }
 
-  if (successful === true && groups?.length > 0) {
+  if (successful === true) {
     return (
       <div className="alert alert-success alert-dismissible no-shadow text-start" role="alert">
         <h4 className="alert-heading">Thank you so much for your support!</h4>
@@ -298,7 +287,7 @@ const Purchase = () => {
     );
   }
 
-  if (successful === false || (successful === true && groups?.length === 0)) {
+  if (successful === false) {
     return (
       <div className="alert alert-danger alert-dismissible no-shadow text-start" role="alert">
         <h4 className="alert-heading">Unlock Code Generation Error</h4>
@@ -334,25 +323,57 @@ const Purchase = () => {
 
         {step === 1 && (
           <>
-            <Choices
-              choice={choice}
-              choices={bundles}
-              onChangeQuantity={setQuantity}
-              onChoose={handleChoice}
-              quantity={quantity}
-              type="bundle"
-            />
+            {choice === undefined && (
+              <div className="dropdown">
+                <button className="btn btn-light dropdown-toggle my-dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown">
+                  {filterBy ? filterBy.charAt(0).toUpperCase() + filterBy.slice(1) : 'All'}
+                </button>
+                <ul className="dropdown-menu dropdown-menu-light w-100 text-start">
+                  {['All', 'Apps', 'Bundles'].map((value) => (
+                    <li key={value}>
+                      <button
+                        className={`dropdown-item ${value.toLowerCase() === filterBy ? 'active' : ''}`}
+                        onClick={() => setFilterBy(value.toLowerCase())}
+                      >
+                        {String(value)}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-            {choice === undefined && <hr />}
+            {['all', 'bundles'].includes(filterBy) && (
+              <>
+                {choice === undefined && <hr />}
+                {choice === undefined && <h3>Bundles</h3>}
+                {choice === undefined && <hr />}
 
-            <Choices
-              choice={choice}
-              choices={apps}
-              onChangeQuantity={setQuantity}
-              onChoose={handleChoice}
-              quantity={quantity}
-              type="app"
-            />
+                <Choices
+                  choice={choice}
+                  choices={products.filter((product) => product.type === 'bundle')}
+                  onChangeQuantity={setQuantity}
+                  onChoose={handleChoice}
+                  quantity={quantity}
+                />
+              </>
+            )}
+
+            {['all', 'apps'].includes(filterBy) && (
+              <>
+                {choice === undefined && <hr />}
+                {choice === undefined && <h3>Apps</h3>}
+                {choice === undefined && <hr />}
+
+                <Choices
+                  choice={choice}
+                  choices={products.filter((product) => product.type === 'widget')}
+                  onChangeQuantity={setQuantity}
+                  onChoose={handleChoice}
+                  quantity={quantity}
+                />
+              </>
+            )}
 
             {choice !== undefined && (
               <div className="row mt-4">
@@ -420,10 +441,6 @@ const Purchase = () => {
         {step === 3 && (
           <>
             <div className="list-group-item rounded-1 py-3">
-              {isPending && (
-                <div className="spinner-border" role="status" />
-              )}
-
               <p className="text-start no-shadow">
                 Ready to checkout? Click, or tap, on the "Pay with PayPal" button below.
               </p>
