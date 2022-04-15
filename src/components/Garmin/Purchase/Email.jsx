@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 
 import { setEmail } from '../../../store/garmin/actions';
+import { Missing } from './components/Missing';
 import { Summary } from './components/Summary';
 import * as utils from './utils';
 
@@ -27,6 +28,12 @@ export const Email = () => {
   const handleOnNext = () => {
     navigate('/garmin/purchase/checkout');
   };
+
+  if (!choice || !products) {
+    return (
+      <Missing />
+    );
+  }
 
   return (
     <div className="my-form mb-sm-4">

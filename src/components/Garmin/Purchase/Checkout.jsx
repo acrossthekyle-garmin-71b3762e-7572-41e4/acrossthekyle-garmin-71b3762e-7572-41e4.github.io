@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { PayPalButtons } from '@paypal/react-paypal-js';
 
 import { onPurchased } from '../../../store/garmin/actions';
+import { Missing } from './components/Missing';
 import { Summary } from './components/Summary';
 import * as utils from './utils';
 
@@ -25,7 +26,7 @@ export const Checkout = () => {
 
   const handleCreateOrder = async (data, actions) => {
     const value = await utils.calculateCost(choice, quantity)
-                             .then((response) => response.data);
+                             .then((response) => response.data.cost);
 
     return actions.order.create({
       purchase_units: [
@@ -77,7 +78,9 @@ export const Checkout = () => {
   };
 
   if (!choice || !email || !products) {
-    return null;
+    return (
+      <Missing />
+    );
   }
 
   return (
