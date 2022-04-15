@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 
-import me from '../images/me.jpg';
+import me from '../../images/me.jpg';
 
-const Home = ({ onPress }) => {
+export const Landing = ({ onPress }) => {
 	const navigate = useNavigate();
 
 	return (
@@ -40,5 +40,3 @@ const Home = ({ onPress }) => {
     </>
   );
 }
-
-export default Home;

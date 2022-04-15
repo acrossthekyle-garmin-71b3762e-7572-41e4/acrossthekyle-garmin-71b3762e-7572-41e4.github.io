@@ -3,11 +3,9 @@ import { HashRouter } from "react-router-dom";
 import { Provider } from 'react-redux'
 
 import store from './store'
-import App from './App';
+import { App } from './components/App';
 
-const container = document.getElementById('root');
-
-const root = createRoot(container);
+const root = createRoot(document.getElementById('root'));
 
 root.render(
   <Provider store={store}>

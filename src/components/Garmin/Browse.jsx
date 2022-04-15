@@ -1,8 +1,21 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-const Modal = ({ cost, description, features, id, name, onPurchase, settings, trial, type, url }) => {
+import { setChoice } from '../../store/garmin/actions';
+
+const Modal = ({
+	cost,
+	description,
+	features,
+	id,
+	name,
+	onPurchase,
+	settings,
+	trial,
+	type,
+	url
+}) => {
 	return (
 		<div className="modal" id={`product_${id}_modal`} tabIndex="-1">
 		  <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -35,9 +48,27 @@ const Modal = ({ cost, description, features, id, name, onPurchase, settings, tr
 		      	<p>{trial} Days</p>
 		      </div>
 		      <div className="modal-footer">
-		        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-		        <a className="btn btn-primary" href={url} target="_blank" rel="noreferrer">View on Store</a>
-		        <button type="button" className="btn btn-success" data-bs-dismiss="modal" onClick={onPurchase}>
+		        <button
+		        	type="button"
+		        	className="btn btn-secondary"
+		        	data-bs-dismiss="modal"
+		        >
+		        	Close
+		        </button>
+		        <a
+		        	className="btn btn-primary"
+		        	href={url}
+		        	target="_blank"
+		        	rel="noreferrer"
+		        >
+		        	View on Store
+		        </a>
+		        <button
+		        	type="button"
+		        	className="btn btn-success"
+		        	data-bs-dismiss="modal"
+		        	onClick={onPurchase}
+		        >
 		        	Buy Code: ${String(cost)}
 		        </button>
 		      </div>
@@ -47,13 +78,17 @@ const Modal = ({ cost, description, features, id, name, onPurchase, settings, tr
 	);
 };
 
-const Apps = () => {
+export const Browse = () => {
 	const navigate = useNavigate();
+
+	const dispatch = useDispatch();
 
 	const products = useSelector(state => state.garmin.products);
 
 	const onPurchase = (uuid) => {
-		navigate(`/garmin/purchase/${uuid}`);
+		dispatch(setChoice(uuid));
+
+		navigate('/garmin/purchase');
 	};
 
 	if (products === undefined) {
@@ -93,5 +128,3 @@ const Apps = () => {
 		</div>
   );
 }
-
-export default Apps;

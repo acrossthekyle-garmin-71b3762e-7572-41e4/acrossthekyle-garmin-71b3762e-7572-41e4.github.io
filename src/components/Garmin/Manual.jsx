@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 const axios = require('axios').default;
 
-const Manual = () => {
+export const Manual = () => {
   const navigate = useNavigate();
 
   const [choice, setChoice] = useState(undefined);
@@ -213,5 +213,3 @@ const Manual = () => {
     </>
   );
 }
-
-export default Manual;

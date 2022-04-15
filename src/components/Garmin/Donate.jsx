@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Donate = () => {
+export const Donate = () => {
   return (
     <>
       <p className="lead">
@@ -19,5 +19,3 @@ const Donate = () => {
     </>
   );
 }
-
-export default Donate;

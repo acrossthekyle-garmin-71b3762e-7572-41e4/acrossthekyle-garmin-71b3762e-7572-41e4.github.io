@@ -2,17 +2,11 @@ import React, { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 
-import { onLoaded } from '../store/garminActions';
+import { onLoaded } from '../../store/garmin/actions';
 
 const axios = require('axios').default;
 
 const pages = [
-  {
-    name: 'Home',
-    title: '',
-    key: 'home',
-    path: '/garmin'
-  },
   {
     name: 'Apps',
     title: 'Apps',
@@ -39,7 +33,7 @@ const pages = [
   }
 ];
 
-const Garmin = () => {
+export const Container = () => {
   const location = useLocation();
 
   const navigate = useNavigate();
@@ -51,10 +45,9 @@ const Garmin = () => {
 
   useEffect(() => {
     if (products === undefined) {
-      axios.get('/api/garmin/browse')
-        .then((response) => {
-          dispatch(onLoaded(response.data));
-        });
+      axios.get('/api/garmin/browse').then((response) => {
+        dispatch(onLoaded(response.data));
+      });
     }
   }, [products, dispatch]);
 
@@ -88,20 +81,21 @@ const Garmin = () => {
   }
 
   return (
-    <div className="cover-container d-flex w-100 h-100 p-3 pb-0 mx-auto flex-column">
+    <div
+      className="cover-container d-flex w-100 h-100 p-3 pb-0 mx-auto flex-column"
+    >
 		  <header className="mb-sm-auto">
 		    <div>
-		      <h3 className="float-md-start mb-0 my-logo" onClick={() => navigate('/garmin')}>
+		      <h3
+            className="float-md-start mb-0 my-logo"
+            onClick={() => navigate('/garmin')}
+          >
             acrossthekyle
           </h3>
 
 		      <nav className="nav nav-masthead justify-content-center float-md-end">
 		      	{pages.map(({ key, name, path }) => {
-              if (key === 'home') {
-                return null;
-              }
-
-		      		return (
+              return (
                 <a
                   className={`nav-link ${location.pathname.includes(path) ? 'active' : ''}`}
                   href={`#${path}`}
@@ -130,5 +124,3 @@ const Garmin = () => {
 		</div>
   );
 }
-
-export default Garmin;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Help = () => {
+export const Help = () => {
 	return (
     <>
       <p className="lead text-start">
@@ -39,5 +39,3 @@ const Help = () => {
     </>
   );
 }
-
-export default Help;
