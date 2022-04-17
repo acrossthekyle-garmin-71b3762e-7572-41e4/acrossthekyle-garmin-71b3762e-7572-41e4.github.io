@@ -265,8 +265,8 @@ export const Cart = () => {
 				        ))}
 				        <hr className="d-none d-md-block" />
 				        {cart.length === 1 && showBundleDiscountAlert && (
-				        	<div className="text-center">
-				        		<hr  className="d-block d-md-none" />
+				        	<div className="text-center mt-4">
+				        		<hr className="d-block d-md-none" />
 				        		<div className="mb-2">Add another item to get a bundled discount?</div>
 				        		<button
 					        		className="btn btn-secondary btn-sm me-2"
@@ -286,7 +286,7 @@ export const Cart = () => {
 				        )}
 				        {cart.length > 1 && (
 				        	<div className="text-center">
-				        		<hr  className="d-block d-md-none" />
+				        		<hr className="d-block d-md-none" />
 				        		<div className="mt-4">Nice, you got a discount!</div>
 				        	</div>
 				        )}
