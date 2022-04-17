@@ -25,6 +25,7 @@ export const Cart = () => {
 	const email = useSelector(state => state.garmin.email);
 	const products = useSelector(state => state.garmin.products);
 
+	const [showPayPal, setShowPayPal] = useState(false);
 	const [processing, setProcessing] = useState(false);
 
 	const cartCount = utils.getCartCount(cart);
@@ -42,7 +43,13 @@ export const Cart = () => {
   };
 
   const handleEmailOnChange = (event) => {
-    dispatch(setEmail(event.target.value));
+  	const value = event.target.value;
+
+  	dispatch(setEmail(value));
+
+  	if (!/(.+)@(.+){2,}\.(.+){2,}/.test(value) && showPayPal) {
+			setShowPayPal(false);
+		}
   };
 
   const handleCreateOrder = async (data, actions) => {
@@ -232,38 +239,45 @@ export const Cart = () => {
 				          </div>
 				        </div>
 				        <div className="mb-2">
-				        	<div className={cart.length > 0 && /(.+)@(.+){2,}\.(.+){2,}/.test(email) ? '' : 'd-none'}>
-				        		<p className="form-text text-start">
-						          Note: you <strong>do not</strong> need to have a PayPal account in
-						          order to pay. Choose the "Pay with Debit or Credit Card" option,
-						          and after filling out the form click on "Continue as Guest".
-						        </p>
-					        	<PayPalButtons
-						          createOrder={handleCreateOrder}
-						          onApprove={handleOnApprove}
-						          forceReRender={[cartCount]}
-						          onError={handleOnError}
-						          style={{
-						            layout: 'vertical',
-						            color:  'blue',
-						            shape:  'rect',
-						            label:  'pay'
-						          }}
-						        />
-						        <div className="form-text text-start">
-						          <p>
-						            When using the "Pay with Debit or Credit Card" option,
-						            clicking on "Create Account & Continue", or "Continue
-						            as Guest", will charge your payment method.
-						          </p>
+				        	{!showPayPal && (
+				        		<button
+				        	  	disabled={cart.length === 0 || !/(.+)@(.+){2,}\.(.+){2,}/.test(email)}
+				        	  	className="btn btn-primary w-100"
+				        	  	type="button"
+				        	  	onClick={() => setShowPayPal(true)}
+				        	  >
+				        	  	Continue
+				        	  </button>
+				        	)}
+				        	{showPayPal && (
+				        		<div>
+					        		<PayPalButtons
+							          createOrder={handleCreateOrder}
+							          onApprove={handleOnApprove}
+							          forceReRender={[cartCount]}
+							          onError={handleOnError}
+							          style={{
+							            layout: 'vertical',
+							            color:  'blue',
+							            shape:  'rect',
+							            label:  'pay'
+							          }}
+							        />
+							        <div className="form-text text-start">
+							          <p>
+							            When using the "Pay with Debit or Credit Card" option (Guest Checkout),
+							            clicking on "Create Account & Continue", or "Continue
+							            as Guest", will charge your payment method.
+							          </p>
+							        </div>
 						        </div>
-					        </div>
+						       )}
 				        	<button
 				        		className="btn btn-secondary w-100 mt-2"
 				        		type="button"
 				        		data-bs-dismiss="modal"
 				        	>
-				        		Continue Browsing
+				        		Close
 				        	</button>
 				        </div>
 					    </div>

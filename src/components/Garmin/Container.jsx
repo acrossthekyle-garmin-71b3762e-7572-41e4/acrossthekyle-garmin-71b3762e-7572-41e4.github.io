@@ -104,9 +104,8 @@ export const Container = () => {
     	      	<li className="nav-item">
                 <button
                   className="btn btn-transparent text-light"
-                  disabled={cartCount === 0}
                   type="button"
-                  data-bs-toggle="modal"
+                  data-bs-toggle={cartCount === 0 ? '' : 'modal'}
                   data-bs-target="#cart"
                 >
                   Cart
