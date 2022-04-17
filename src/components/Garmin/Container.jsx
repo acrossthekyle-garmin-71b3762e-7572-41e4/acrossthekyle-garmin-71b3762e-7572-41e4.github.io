@@ -23,7 +23,7 @@ const pages = [
     external: true
   },
   {
-    name: 'Help',
+    name: 'FAQ',
     key: 'help',
     path: '/garmin/help',
     external: false
@@ -87,33 +87,33 @@ export const Container = () => {
       </PayPalScriptProvider>
     	<header className="pt-4 pb-2 mb-4">
         <div className="row g-0">
-          <div className="col-12 col-sm-4 d-flex justify-content-sm-start">
+          <div className="col-6 col-sm-4 d-flex justify-content-sm-start">
     	      <button
-              className="btn btn-transparent mb-3 mt-0 pt-0 mb-md-0 me-md-auto text-light text-decoration-none mt-1 fs-4 font-monospace"
+              className="btn btn-transparent me-md-auto text-light text-decoration-none font-monospace ps-0"
               onClick={() => navigate('/garmin')}
               type="button"
             >
     	        acrossthekyle
     	      </button>
           </div>
-          <div className="col-12 col-sm-8 d-flex justify-content-center justify-content-sm-end">
+          <div className="col-12 col-sm-8 d-flex justify-content-sm-end">
             {(!location.pathname.includes('success') && !location.pathname.includes('error')) && (
-              <ul className="nav">
-                {pages.map(({ external, key, name, path }) => (
+              <ul className="nav flex-column flex-sm-row text-start">
+                {pages.map(({ external, key, name, path }, index) => (
                   <li key={key} className="nav-item font-monospace">
                     <a
-                      className={`btn btn-transparent ${location.pathname === path ? 'text-secondary' : 'text-light'}`}
+                      className={`btn btn-transparent ${location.pathname === path ? 'text-secondary' : 'text-light'} ps-0 ${index === (pages.length - 1) ? '' : 'pe-4'}`}
                       href={`${external ? '' : '#'}${path}`}
                       target={external ? '_blank' : '_self'}
                       rel="noreferrer"
                     >
-                      {name}
+                      <span className="d-inline d-sm-none">{'>'}</span> {name}
                     </a>
                   </li>
                 ))}
                 <li className="nav-item font-monospace">
                   <button
-                    className="btn btn-transparent text-light"
+                    className="btn btn-transparent text-light font-monospace pe-0 ps-3 d-none d-sm-block"
                     type="button"
                     data-bs-toggle={cartCount === 0 ? '' : 'modal'}
                     data-bs-target="#cart"
@@ -128,6 +128,19 @@ export const Container = () => {
                 </li>
               </ul>
             )}
+            <button
+              className="btn btn-transparent text-light font-monospace d-block d-sm-none position-absolute end-0 top-0 mt-4"
+              type="button"
+              data-bs-toggle={cartCount === 0 ? '' : 'modal'}
+              data-bs-target="#cart"
+            >
+              Cart
+              <span
+                className={`badge rounded-pill ms-2 text-center ${cartCount > 0 ? 'bg-danger text-light' : 'bg-light text-dark'}`}
+              >
+                {cartCount}
+              </span>
+            </button>
           </div>
         </div>
 	    </header>

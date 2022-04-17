@@ -55,8 +55,8 @@ const Product = ({ product, onAddToCart }) => {
 			<div className="product-content font-monospace">
 				<h1 className={`product-title ${product.color}`}>{product.name}</h1>
 				<div className="product-subtitle">
-					<span className="badge bg-success">Cost: ${product.cost}</span>
-					<span className="badge bg-secondary ms-2">Trial period: {product.trial} days</span>
+					<span className="badge bg-success me-2">Cost: ${product.cost}</span>
+					<span className="badge bg-secondary">Trial period: {product.trial} days</span>
 					<div className="mt-2">
 						{product.snippet}
 					</div>
