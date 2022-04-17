@@ -1,130 +1,102 @@
-import React from 'react';
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 
-import { setChoice } from '../../store/garmin/actions';
+import BarometerHero from '../../images/barometer.jpg';
+import CompassHero from '../../images/compass.jpg';
+import ElevationHero from '../../images/elevation.jpg';
+import HeartRateHero from '../../images/heart.jpg';
+import SunTimesHero from '../../images/sun_times.jpg';
+import TemperatureHero from '../../images/temperature.jpg';
+import { addToCart } from '../../store/garmin/actions';
 
-const Modal = ({
-	cost,
-	description,
-	features,
-	id,
-	name,
-	onPurchase,
-	settings,
-	trial,
-	type,
-	url
-}) => {
+const Product = ({ product }) => {
+	const dispatch = useDispatch();
+
+	const [showMore, toggleShowMore] = useState(false);
+
+	const handleOnAddToCart = (uuid) => {
+    dispatch(addToCart({ uuid, quantity: 1 }));
+  };
+
+  const getHero = (name) => {
+  	if (name === 'Barometer Widget') {
+  		return BarometerHero;
+  	}
+
+  	if (name === 'Compass (ABC) Widget') {
+  		return CompassHero;
+  	}
+
+  	if (name === 'Elevation Widget') {
+  		return ElevationHero;
+  	}
+
+  	if (name === 'Heart Rate Widget') {
+  		return HeartRateHero;
+  	}
+
+  	if (name === 'Sun Times Widget') {
+  		return SunTimesHero;
+  	}
+
+  	if (name === 'Temperature Widget') {
+  		return TemperatureHero;
+  	}
+
+  	return undefined;
+  };
+
 	return (
-		<div className="modal" id={`product_${id}_modal`} tabIndex="-1">
-		  <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-		    <div className="modal-content">
-		      <div className="modal-header">
-		        <h2 className="modal-title text-dark no-shadow">{name}</h2>
-		        <button type="button" className="btn-close" data-bs-dismiss="modal" />
-		      </div>
-		      <div className="modal-body text-dark text-start no-shadow">
-		      	<h3>Description</h3>
-		        {description.map((paragraph, index) => (
-		        	<p key={index}>{paragraph}</p>
-		        ))}
-
-		        <h3>Features</h3>
-		        <ul>
-			        {features.map((paragraph, index) => (
-			        	<li key={index}>{paragraph}</li>
-			        ))}
-		        </ul>
-
-		        <h3>Settings</h3>
-		        <ul>
-		        {settings.map((paragraph, index) => (
-		        	<li key={index}>{paragraph}</li>
-		        ))}
-		        </ul>
-
-		        <h3>Trial Period</h3>
-		      	<p>{trial} Days</p>
-		      </div>
-		      <div className="modal-footer">
-		        <button
-		        	type="button"
-		        	className="btn btn-secondary"
-		        	data-bs-dismiss="modal"
-		        >
-		        	Close
-		        </button>
-		        <a
-		        	className="btn btn-primary"
-		        	href={url}
-		        	target="_blank"
-		        	rel="noreferrer"
-		        >
-		        	View on Store
-		        </a>
-		        <button
-		        	type="button"
-		        	className="btn btn-success"
-		        	data-bs-dismiss="modal"
-		        	onClick={onPurchase}
-		        >
-		        	Buy Code: ${String(cost)}
-		        </button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
+		<article key={product.uuid} className={`product text-start ${product.color}`}>
+			<img className="product-img" src={getHero(product.name)} alt="" />
+			<div className="product-content">
+				<h1 className={`product-title ${product.color}`}>{product.name}</h1>
+				<div className="product-subtitle">
+					{product.snippet}
+				</div>
+				<hr className={`product-divider ${product.color}`} />
+				<div className="product-preview-txt">
+					{!showMore && product.description[0].replace(/^(.{300}[^\s]*).*/, "$1").replace(/([.,\/#!$%\^&\*;:{}=\-_`~()\]\[])+$/g, "") + ' . . .'}
+					{showMore && product.description.map((text, index) => (
+						<p key={index}>{text}</p>
+					))}
+				</div>
+				<ul className="product-tagbox">
+					<li className="product-tag-item">{product.type}</li>
+					<li className="product-tag-item">${product.cost} (Free for {product.trial} days)</li>
+					<button
+						className={`product-tag-item add-to-cart ${product.color}`}
+						type="button"
+						onClick={() => handleOnAddToCart(product.uuid)}
+					>
+						Add to Cart
+					</button>
+					<button
+						className={`product-tag-item show-more`}
+						type="button"
+						onClick={() => toggleShowMore(!showMore)}
+					>
+						{showMore && 'Show Less'}
+						{!showMore && 'Show More'}
+					</button>
+				</ul>
+			</div>
+		</article>
 	);
 };
 
 export const Browse = () => {
-	const navigate = useNavigate();
-
-	const dispatch = useDispatch();
-
 	const products = useSelector(state => state.garmin.products);
-
-	const onPurchase = (uuid) => {
-		dispatch(setChoice(uuid));
-
-		navigate('/garmin/purchase');
-	};
 
 	if (products === undefined) {
     return null;
   }
 
 	return (
-		<div className="container mb-sm-4">
-		  <div className="row row-cols-1 row-cols-md-2">
-		  	{products?.filter((product) => product.type !== 'bundle').map((product, index) => (
-		  		<div key={product.uuid} className="px-0 px-sm-3">
-		  			<Modal
-		  				id={product.uuid}
-		  				onPurchase={() => onPurchase(product.uuid)}
-		  				{...product}
-		  			/>
-
-			  		<div className="col">
-				  		<div className={`card ${index === products.length - 1 ? '' : 'mb-3 mb-sm-4'} rounded-1`}>
-							  <div className="card-body h-100 bg-light">
-							    <h5 className="card-title text-dark no-shadow">{product.name}</h5>
-							    <p className="card-text text-secondary no-shadow">{product.snippet}</p>
-							    <button
-							    	type="button"
-							    	className="btn btn-success"
-							    	data-bs-toggle="modal"
-							    	data-bs-target={`#product_${product.uuid}_modal`}
-							    >
-									  Learn More
-									</button>
-							  </div>
-							</div>
-						</div>
-					</div>
-		  	))}
-		  </div>
-		</div>
-  );
+		<>
+			{products?.filter((product) => product.type !== 'bundle').map((product) => (
+				<Product key={product.uuid} product={product} />
+			))}
+		</>
+	);
 }

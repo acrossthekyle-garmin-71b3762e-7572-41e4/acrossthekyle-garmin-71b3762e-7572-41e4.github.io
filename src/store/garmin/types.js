@@ -1,5 +1,6 @@
+export const ADD_TO_CART = 'ADD_TO_CART';
+export const CHANGE_QUANTITY_IN_CART = 'CHANGE_QUANTITY_IN_CART';
 export const ON_LOAD = 'ON_LOAD';
 export const ON_PURCHASED = 'ON_PURCHASED';
-export const SET_CHOICE = 'SET_CHOICE';
-export const SET_EMAIL = 'EMAILED';
-export const SET_QUANTITY = 'SET_QUANTITY';
+export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+export const SET_EMAIL = 'SET_EMAIL';

@@ -1,4 +1,25 @@
-import { ON_LOAD, ON_PURCHASED, SET_CHOICE, SET_EMAIL, SET_QUANTITY } from './types';
+import {
+	ADD_TO_CART,
+	CHANGE_QUANTITY_IN_CART,
+	ON_LOAD,
+	ON_PURCHASED,
+	REMOVE_FROM_CART,
+	SET_EMAIL
+} from './types';
+
+export const addToCart = (payload) => {
+  return {
+		type: ADD_TO_CART,
+		payload
+  };
+};
+
+export const changeQuantityInCart = (payload) => {
+  return {
+		type: CHANGE_QUANTITY_IN_CART,
+		payload
+  };
+};
 
 export const onLoaded = (payload) => {
   return {
@@ -13,9 +34,9 @@ export const onPurchased = () => {
   };
 };
 
-export const setChoice = (payload) => {
+export const removeFromCart = (payload) => {
   return {
-		type: SET_CHOICE,
+		type: REMOVE_FROM_CART,
 		payload
   };
 };
@@ -23,13 +44,6 @@ export const setChoice = (payload) => {
 export const setEmail = (payload) => {
   return {
 		type: SET_EMAIL,
-		payload
-  };
-};
-
-export const setQuantity = (payload) => {
-  return {
-		type: SET_QUANTITY,
 		payload
   };
 };

@@ -16,6 +16,8 @@ export const Success = () => {
       <p className="mb-0">
         Thanks again!
       </p>
+      <hr />
+      <p className="mb-0">You can safely close this window.</p>
     </div>
   );
 }

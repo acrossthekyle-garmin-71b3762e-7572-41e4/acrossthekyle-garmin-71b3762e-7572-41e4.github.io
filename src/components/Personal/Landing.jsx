@@ -16,7 +16,7 @@ export const Landing = () => {
             className="btn btn-lg btn-secondary fw-bold mt-4"
             onClick={() => navigate('garmin')}
           >
-            Go to Garmin Apps
+            Browse Garmin Apps
           </button>
         </div>
       </main>

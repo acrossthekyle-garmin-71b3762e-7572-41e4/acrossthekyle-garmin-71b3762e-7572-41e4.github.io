@@ -1,24 +1,21 @@
 import React from 'react';
-import { Routes, Route } from "react-router-dom";
+import { Navigate, Routes, Route } from "react-router-dom";
 
-import { PurchaseRoutes } from './Purchase/Routes';
 import { Container } from './Container';
-import { Landing } from './Landing';
 import { Browse } from './Browse';
-import { Donate } from './Donate';
 import { Help } from './Help';
-import { Manual } from './Manual';
+import { Success } from './Success';
+import { Error } from './Error';
 
 export const GarminRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Container />}>
-        <Route index element={<Landing />} />
-        <Route path="apps" element={<Browse />} />
-        <Route path="donate" element={<Donate />} />
+        <Route index element={<Browse />} />
+        <Route path="success" element={<Success />} />
+        <Route path="error" element={<Error />} />
         <Route path="help" element={<Help />} />
-        <Route path="manual" element={<Manual />} />
-        <Route path="purchase/*" element={<PurchaseRoutes />} />
+        <Route path="*" element={<Navigate replace to="/garmin" />} />
       </Route>
     </Routes>
   );
