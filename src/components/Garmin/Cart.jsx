@@ -34,6 +34,16 @@ export const Cart = () => {
 		modal = new Modal(document.getElementById('cart'));
 	}, []);
 
+	useEffect(() => {
+		if (cartCount === 0) {
+    	setShowPayPal(false);
+
+    	dispatch(setEmail(''));
+
+    	modal.hide();
+    }
+	}, [cartCount]);
+
 	const handleQuantityOnChange = (index, quantity) => {
 		dispatch(changeQuantityInCart({ index, quantity }));
 	};
@@ -79,6 +89,7 @@ export const Cart = () => {
       })
         .then((response) => {
           setProcessing(false);
+          setShowPayPal(false);
 
           modal.hide()
 
@@ -88,6 +99,7 @@ export const Cart = () => {
         })
         .catch(() => {
           setProcessing(false);
+          setShowPayPal(false);
 
           modal.hide()
 
