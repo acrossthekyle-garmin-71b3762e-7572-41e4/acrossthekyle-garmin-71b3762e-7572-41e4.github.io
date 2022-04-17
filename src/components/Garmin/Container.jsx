@@ -38,14 +38,6 @@ export const Container = () => {
     }
   }, [products, dispatch]);
 
-  const getPageTitle = () => {
-    const results = pages.filter(({ path }) => path === location.pathname);
-
-    return results.length > 0 ? results[0].title : '';
-  };
-
-  const title = getPageTitle();
-
   const cartCount = utils.getCartCount(cart);
 
   const clientId = (process.env.NODE_ENV === 'development' ? 'Abny9Qva83EbxXxthpqaTYHifJGptx73dZX6uWh-z8UDaF-xK8g5sPkSz59_YR4Bwy696QjpQ5-r5meb' : 'AfukE7xeOHI3Qh5RGage7d9BYnxG0NHw_WEq0H_aoTRfEDMjOdRVAj7EpoyVQfSaoDDDGBuqqV02jEUu');
@@ -101,6 +93,7 @@ export const Container = () => {
   	                className={`nav-link ${location.pathname.includes(path) ? 'link-secondary' : 'link-light'}`}
   	                href={`${external ? '' : '#'}${path}`}
                     target={external ? '_blank' : '_self'}
+                    rel="noreferrer"
   	                key={key}
   	              >
   	                {name}
