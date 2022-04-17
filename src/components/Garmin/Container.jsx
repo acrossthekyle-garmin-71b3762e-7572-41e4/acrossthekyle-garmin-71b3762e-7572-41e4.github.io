@@ -85,9 +85,9 @@ export const Container = () => {
       >
         <Cart />
       </PayPalScriptProvider>
-    	<header className="py-3 mb-4">
-        <div className="row">
-          <div className="col-12 col-sm-4 d-flex justify-content-center justify-content-sm-start">
+    	<header className="pt-4 pb-2 mb-4">
+        <div className="row g-0">
+          <div className="col-12 col-sm-4 d-flex justify-content-sm-start">
     	      <button
               className="btn btn-transparent mb-3 mt-0 pt-0 mb-md-0 me-md-auto text-light text-decoration-none mt-1 fs-4 font-monospace"
               onClick={() => navigate('/garmin')}
