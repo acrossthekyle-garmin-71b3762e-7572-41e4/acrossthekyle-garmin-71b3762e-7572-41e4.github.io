@@ -62,17 +62,21 @@ const Product = ({ product, onAddToCart }) => {
 					</div>
 				</div>
 				<hr className={`product-divider ${product.color}`} />
-				<div className="product-preview-txt">
+				<div className="product-preview-txt position-relative">
 					{showMore && (
-						<div className="d-flex flex-column position-absolute start-0 top-50 ms-1 ms-md-3 ps-md-2 mt-1 fs-4">
+						<div className="product-preview-txt-arrows d-flex flex-column position-absolute start-0 top-0 fs-4">
 							<span>{String.fromCharCode(8593)}</span>
 							<span>{String.fromCharCode(8595)}</span>
 						</div>
 					)}
 					{!showMore && product.description[0].replace(/^(.{200}[^\s]*).*/, "$1").replace(/([.,\/#!$%\^&\*;:{}=\-_`~()\]\[])+$/g, "") + '...'}
-					{showMore && product.description.map((text, index) => (
-						<p key={index}>{text}</p>
-					))}
+					{showMore && (
+						<div className="product-preview-txt-content">
+							{product.description.map((text, index) => (
+								<p key={index}>{text}</p>
+							))}
+						</div>
+					)}
 				</div>
 				<ul className="product-tagbox">
 					<button

@@ -3,16 +3,12 @@ import React from 'react';
 export const Help = () => {
 	return (
 		<>
-			<article className="product text-start green">
-				<img className="product-img" src="https://picsum.photos/id/1073/1000/1000" alt="" />
+			<article className="product text-start blue">
+				<img className="product-img" src="https://picsum.photos/id/1073/1300/1300" alt="" />
 				<div className="product-content font-monospace">
 					<h1 className="product-title">What do I do with the Unlock Code?</h1>
 					<hr className="product-divider blue" />
-					<div className="product-preview-txt">
-						<div className="d-flex flex-column position-absolute start-0 top-50 ms-2 ms-md-4 ps-md-1 mt-1 fs-4">
-							<span>{String.fromCharCode(8593)}</span>
-							<span>{String.fromCharCode(8595)}</span>
-						</div>
+					<div className="product-preview-txt product-preview-txt-no-height">
 						<ul className="text-start">
 			        <li>
 			          Once you get the Unlock Code, open the Garmin ConnectIQ Mobile app (make sure the widget isn't open on the watch).
@@ -36,12 +32,12 @@ export const Help = () => {
 					</div>
 				</div>
 			</article>
-			<article className="product text-start blue">
+			<article className="product text-start green">
 				<img className="product-img" src="https://picsum.photos/id/0/1000/1000" alt="" />
 				<div className="product-content font-monospace">
 					<h1 className="product-title">Where is the email?</h1>
 					<hr className="product-divider green" />
-					<div className="product-preview-txt">
+					<div className="product-preview-txt product-preview-txt-no-height">
 						Emails can sometimes take up to 12+ hours to arrive. If the email has not
 		        arrived in a timely manner first check your spam folder (sometimes they can end up in there),
 		        and if they still have not arrived then please reach out via <a href="mailto:acrossthekyle@gmail.com">email</a>,
