@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { PayPalButtons } from '@paypal/react-paypal-js';
 import { Modal } from 'bootstrap';
@@ -21,12 +21,17 @@ export const Cart = () => {
 
 	const navigate = useNavigate();
 
+	const [searchParams] = useSearchParams();
+
 	const cart = useSelector(state => state.garmin.cart);
 	const email = useSelector(state => state.garmin.email);
 	const products = useSelector(state => state.garmin.products);
 
 	const [showPayPal, setShowPayPal] = useState(false);
 	const [processing, setProcessing] = useState(false);
+
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
 
 	const cartCount = utils.getCartCount(cart);
 
@@ -116,6 +121,45 @@ export const Cart = () => {
     alert('Something went wrong with processing your payment, please confirm your payment details are correct, and try again.');
   };
 
+  const handleUsernameOnChange = (event) => {
+  	setUsername(event.target.value);
+  };
+
+  const handlePasswordOnChange = (event) => {
+  	setPassword(event.target.value);
+  };
+
+  const handleSubmitOnClick = () => {
+  	setProcessing(true);
+
+  	axios.post('/api/garmin/manual', {
+      cart,
+      email,
+      username,
+      password
+    })
+      .then((response) => {
+        setProcessing(false);
+        setShowPayPal(false);
+
+        modal.hide()
+
+        dispatch(onPurchased());
+
+        navigate('success');
+      })
+      .catch(() => {
+        setProcessing(false);
+        setShowPayPal(false);
+
+        modal.hide()
+
+        dispatch(onPurchased());
+
+        navigate('error');
+      });
+  };
+
   const getCartCost = () => {
   	let total = 0;
 
@@ -141,6 +185,8 @@ export const Cart = () => {
   const cost = getCartCost();
   const discount = getCartDiscount();
   const total = cost - discount;
+
+  const isManual = searchParams.has('manual');
 
 	return (
 		<>
@@ -246,12 +292,53 @@ export const Cart = () => {
 				          	onChange={handleEmailOnChange}
 				          	value={email}
 				          />
-				          <div className="form-text text-start">
-				            The Unlock Code(s) will be sent to this email address.
-				          </div>
+				          {!isManual && (
+				          	<div className="form-text text-start">
+					            The Unlock Code(s) will be sent to this email address.
+					          </div>
+				          )}
+				          {isManual && (
+				          	<div>
+				          		<label
+						            htmlFor="username"
+						            className="fw-bold mb-1 mt-3"
+						          >
+						            Username
+						          </label>
+						          <input
+						          	type="text"
+						          	className="form-control"
+						          	id="username"
+						          	onChange={handleUsernameOnChange}
+						          	value={username}
+						          />
+						          <label
+						            htmlFor="password"
+						            className="fw-bold mb-1 mt-3"
+						          >
+						            Password
+						          </label>
+						          <input
+						          	type="text"
+						          	className="form-control"
+						          	id="password"
+						          	onChange={handlePasswordOnChange}
+						          	value={password}
+						          />
+				          	</div>
+				          )}
 				        </div>
 				        <div className="mb-2">
-				        	{!showPayPal && (
+				        	{isManual && (
+		        				<button
+				        	  	className="btn btn-primary w-100"
+				        	  	type="button"
+				        	  	onClick={handleSubmitOnClick}
+				        	  >
+				        	  	Submit
+				        	  </button>
+		        			)}
+				        	{!isManual && !showPayPal && (
 				        		<button
 				        	  	disabled={cart.length === 0 || !/(.+)@(.+){2,}\.(.+){2,}/.test(email)}
 				        	  	className="btn btn-primary w-100"
@@ -261,9 +348,9 @@ export const Cart = () => {
 				        	  	Proceed to Payment
 				        	  </button>
 				        	)}
-				        	{showPayPal && (
+				        	{!isManual && showPayPal && (
 				        		<div>
-					        		<PayPalButtons
+				        			<PayPalButtons
 							          createOrder={handleCreateOrder}
 							          onApprove={handleOnApprove}
 							          forceReRender={[cartCount]}
