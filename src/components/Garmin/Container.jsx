@@ -11,11 +11,22 @@ const axios = require('axios').default;
 
 const pages = [
   {
+    name: 'Browse',
+    key: '/garmin',
+    path: '/garmin',
+    external: false
+  },
+  {
     name: 'Donate',
-    title: 'Support My Work',
     key: 'donate',
     path: 'https://www.buymeacoffee.com/acrossthekyle',
     external: true
+  },
+  {
+    name: 'Help',
+    key: 'help',
+    path: '/garmin/help',
+    external: false
   }
 ];
 
@@ -86,37 +97,37 @@ export const Container = () => {
     	      </button>
           </div>
           <div className="col-12 col-sm-8 d-flex justify-content-center justify-content-sm-end">
-    	      <ul className="nav">
-    	      	{pages.map(({ external, key, name, path }) => (
-              	<li key={key} className="nav-item">
-  	              <a
-  	                className={`nav-link ${location.pathname.includes(path) ? 'link-secondary' : 'link-light'}`}
-  	                href={`${external ? '' : '#'}${path}`}
-                    target={external ? '_blank' : '_self'}
-                    rel="noreferrer"
-  	                key={key}
-  	              >
-  	                {name}
-  	              </a>
-                </li>
-              ))}
-    	      	<div className="vr mx-2"></div>
-    	      	<li className="nav-item">
-                <button
-                  className="btn btn-transparent text-light"
-                  type="button"
-                  data-bs-toggle={cartCount === 0 ? '' : 'modal'}
-                  data-bs-target="#cart"
-                >
-                  Cart
-                  <span
-                    className={`badge rounded-pill ms-2 text-center ${cartCount > 0 ? 'bg-danger text-light' : 'bg-light text-dark'}`}
+            {(!location.pathname.includes('success') && !location.pathname.includes('error')) && (
+              <ul className="nav">
+                {pages.map(({ external, key, name, path }) => (
+                  <li key={key} className="nav-item">
+                    <a
+                      className={`btn btn-transparent ${location.pathname === path ? 'text-secondary' : 'text-light'}`}
+                      href={`${external ? '' : '#'}${path}`}
+                      target={external ? '_blank' : '_self'}
+                      rel="noreferrer"
+                    >
+                      {name}
+                    </a>
+                  </li>
+                ))}
+                <li className="nav-item">
+                  <button
+                    className="btn btn-transparent text-light"
+                    type="button"
+                    data-bs-toggle={cartCount === 0 ? '' : 'modal'}
+                    data-bs-target="#cart"
                   >
-                    {cartCount}
-                  </span>
-                </button>
-              </li>
-    	      </ul>
+                    Cart
+                    <span
+                      className={`badge rounded-pill ms-2 text-center ${cartCount > 0 ? 'bg-danger text-light' : 'bg-light text-dark'}`}
+                    >
+                      {cartCount}
+                    </span>
+                  </button>
+                </li>
+              </ul>
+            )}
           </div>
         </div>
 	    </header>

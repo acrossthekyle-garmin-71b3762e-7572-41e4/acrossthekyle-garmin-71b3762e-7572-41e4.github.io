@@ -258,7 +258,7 @@ export const Cart = () => {
 				        	  	type="button"
 				        	  	onClick={() => setShowPayPal(true)}
 				        	  >
-				        	  	Continue
+				        	  	Proceed to Payment
 				        	  </button>
 				        	)}
 				        	{showPayPal && (
