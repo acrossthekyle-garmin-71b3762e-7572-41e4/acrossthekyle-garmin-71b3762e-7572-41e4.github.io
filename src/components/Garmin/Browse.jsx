@@ -132,7 +132,7 @@ export const Browse = () => {
 			<div className="toast-container position-fixed top-0 end-0 p-3">
 				<div className="toast" role="alert" ref={toastRef}>
 		      <div className="toast-header">
-		      	<span className="font-monospace text-dark">
+		      	<span className="font-monospace text-dark text-start">
 		      		<strong>{toastName}</strong> added to cart!
 		      	</span>
 		        <button
@@ -144,14 +144,14 @@ export const Browse = () => {
 		      <div className="toast-body bg-light text-end rounded">
 		      	<button
 				    	type="button"
-				    	className="btn btn-secondary btn-sm font-monospace me-2"
+				    	className="btn btn-secondary btn-sm font-monospace mb-2 mb-sm-0"
               onClick={handleToastDismissal}
 				    >
 				    	Add another item
 				    </button>
 				    <button
 				    	type="button"
-				    	className="btn btn-success btn-sm font-monospace"
+				    	className="btn btn-success btn-sm font-monospace ms-2 mb-2 mb-sm-0"
 				    	data-bs-toggle="modal"
               data-bs-target="#cart"
               onClick={handleToastDismissal}
