@@ -18,6 +18,10 @@ body {
   z-index: 9999;
 }
 
+.toast-container {
+  z-index: 99;
+}
+
 /* Browse Cards  */
 
 .product {

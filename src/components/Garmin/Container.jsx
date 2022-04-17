@@ -89,7 +89,7 @@ export const Container = () => {
         <div className="row">
           <div className="col-12 col-sm-4 d-flex justify-content-center justify-content-sm-start">
     	      <button
-              className="btn btn-transparent mb-3 mt-0 pt-0 mb-md-0 me-md-auto text-light text-decoration-none mt-1 fs-4"
+              className="btn btn-transparent mb-3 mt-0 pt-0 mb-md-0 me-md-auto text-light text-decoration-none mt-1 fs-4 font-monospace"
               onClick={() => navigate('/garmin')}
               type="button"
             >
@@ -100,7 +100,7 @@ export const Container = () => {
             {(!location.pathname.includes('success') && !location.pathname.includes('error')) && (
               <ul className="nav">
                 {pages.map(({ external, key, name, path }) => (
-                  <li key={key} className="nav-item">
+                  <li key={key} className="nav-item font-monospace">
                     <a
                       className={`btn btn-transparent ${location.pathname === path ? 'text-secondary' : 'text-light'}`}
                       href={`${external ? '' : '#'}${path}`}
@@ -111,7 +111,7 @@ export const Container = () => {
                     </a>
                   </li>
                 ))}
-                <li className="nav-item">
+                <li className="nav-item font-monospace">
                   <button
                     className="btn btn-transparent text-light"
                     type="button"

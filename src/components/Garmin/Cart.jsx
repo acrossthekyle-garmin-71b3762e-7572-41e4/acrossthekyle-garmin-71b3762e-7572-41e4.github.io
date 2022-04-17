@@ -27,6 +27,7 @@ export const Cart = () => {
 	const email = useSelector(state => state.garmin.email);
 	const products = useSelector(state => state.garmin.products);
 
+	const [showBundleDiscountAlert, setShowBundleDiscountAlert] = useState(true);
 	const [showPayPal, setShowPayPal] = useState(false);
 	const [processing, setProcessing] = useState(false);
 
@@ -77,7 +78,7 @@ export const Cart = () => {
           amount: {
             value,
           },
-          description: 'Widget Unlock Code(s)'
+          description: `Unlock Code${cartCount > 1 ? 's' : ''}`
         }
       ]
     });
@@ -202,13 +203,20 @@ export const Cart = () => {
 				id="cart"
 				tabIndex="-1"
 			>
-				<div className="modal-dialog modal-dialog-centered modal-fullscreen shopping-cart">
+				<div className="modal-dialog modal-dialog-centered modal-fullscreen shopping-cart font-monospace">
 					<div className="modal-content bg-transparent">
-				    <div className="row">
+						<button
+	        		className="btn-close position-absolute mt-4 me-3 me-sm-2 end-0"
+	        		type="button"
+	        		data-bs-dismiss="modal"
+	        	/>
+						<div className="row">
 				      <div className="col-md-8 cart text-dark text-start">
-				      	<div className="d-flex align-items-center justify-content-between">
+				      	<div className="d-flex align-items-center justify-content-between mt-1 pt-4 mt-md-0 pt-md-0">
 				        	<h3 className="fw-bolder mb-0">Cart</h3>
-				        	<span className="text-muted fw-bold text-small">{cartCount} Items</span>
+				        	<span className="text-muted fw-bold text-small">
+				        		{cartCount} Item{cartCount > 1 ? 's' : ''}
+				        	</span>
 				        </div>
 				        {cart.map(({ uuid, quantity }, index) => (
 				        	<React.Fragment key={index}>
@@ -256,6 +264,32 @@ export const Cart = () => {
 					        </React.Fragment>
 				        ))}
 				        <hr className="d-none d-md-block" />
+				        {cart.length === 1 && showBundleDiscountAlert && (
+				        	<div className="text-center">
+				        		<hr  className="d-block d-md-none" />
+				        		<div className="mb-2">Add another item to get a bundled discount?</div>
+				        		<button
+					        		className="btn btn-secondary btn-sm me-2"
+					        		type="button"
+					        		onClick={() => setShowBundleDiscountAlert(false)}
+					        	>
+					        		No thanks
+					        	</button>
+				        		<button
+					        		className="btn btn-success btn-sm"
+					        		type="button"
+					        		data-bs-dismiss="modal"
+					        	>
+					        		Yes, please
+					        	</button>
+				        	</div>
+				        )}
+				        {cart.length > 1 && (
+				        	<div className="text-center">
+				        		<hr  className="d-block d-md-none" />
+				        		<div className="mt-4">Nice, you got a discount!</div>
+				        	</div>
+				        )}
 					  	</div>
 					    <div className="col-md-4 summary text-dark text-start">
 					      <h3 className="fw-bolder">Summary</h3>
@@ -371,13 +405,6 @@ export const Cart = () => {
 							        </div>
 						        </div>
 						       )}
-				        	<button
-				        		className="btn btn-secondary w-100 mt-2"
-				        		type="button"
-				        		data-bs-dismiss="modal"
-				        	>
-				        		Close
-				        	</button>
 				        </div>
 					    </div>
 					  </div>
