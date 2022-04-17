@@ -233,6 +233,11 @@ export const Cart = () => {
 				        </div>
 				        <div className="mb-2">
 				        	<div className={cart.length > 0 && /(.+)@(.+){2,}\.(.+){2,}/.test(email) ? '' : 'd-none'}>
+				        		<p className="form-text text-start">
+						          Note: you <strong>do not</strong> need to have a PayPal account in
+						          order to pay. Choose the "Pay with Debit or Credit Card" option,
+						          and after filling out the form click on "Continue as Guest".
+						        </p>
 					        	<PayPalButtons
 						          createOrder={handleCreateOrder}
 						          onApprove={handleOnApprove}
@@ -245,9 +250,16 @@ export const Cart = () => {
 						            label:  'pay'
 						          }}
 						        />
+						        <div className="form-text text-start">
+						          <p>
+						            When using the "Pay with Debit or Credit Card" option,
+						            clicking on "Create Account & Continue", or "Continue
+						            as Guest", will charge your payment method.
+						          </p>
+						        </div>
 					        </div>
 				        	<button
-				        		className="btn btn-secondary btn-sm w-100 mt-2"
+				        		className="btn btn-secondary w-100 mt-2"
 				        		type="button"
 				        		data-bs-dismiss="modal"
 				        	>
