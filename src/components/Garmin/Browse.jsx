@@ -69,7 +69,7 @@ const Product = ({ product, onAddToCart }) => {
 							<span>{String.fromCharCode(8595)}</span>
 						</div>
 					)}
-					{!showMore && product.description[0].replace(/^(.{300}[^\s]*).*/, "$1").replace(/([.,\/#!$%\^&\*;:{}=\-_`~()\]\[])+$/g, "") + ' ...'}
+					{!showMore && product.description[0].replace(/^(.{250}[^\s]*).*/, "$1").replace(/([.,\/#!$%\^&\*;:{}=\-_`~()\]\[])+$/g, "") + '...'}
 					{showMore && product.description.map((text, index) => (
 						<p key={index}>{text}</p>
 					))}
