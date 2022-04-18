@@ -90,7 +90,7 @@ export const Container = () => {
           <div className="col-6 col-sm-4 d-flex justify-content-sm-start">
     	      <button
               className="btn btn-transparent me-md-auto text-light text-decoration-none font-monospace ps-0"
-              onClick={() => navigate('/garmin')}
+              onClick={() => navigate('/')}
               type="button"
             >
     	        @acrossthekyle

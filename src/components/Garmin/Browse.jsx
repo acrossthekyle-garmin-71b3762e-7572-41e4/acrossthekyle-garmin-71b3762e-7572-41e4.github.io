@@ -79,15 +79,22 @@ const Product = ({ product, onAddToCart }) => {
 					)}
 				</div>
 				<ul className="product-tagbox">
+					<a
+						className={`product-tag-item ${product.color} text-decoration-none`}
+						href={product.url}
+						target="_blank"
+					>
+						View on Store
+					</a>
 					<button
-						className={`product-tag-item add-to-cart ${product.color}`}
+						className={`product-tag-item ${product.color}`}
 						type="button"
 						onClick={() => handleOnAddToCart(product.uuid)}
 					>
 						Add to Cart
 					</button>
 					<button
-						className={`product-tag-item show-more`}
+						className="product-tag-item"
 						type="button"
 						onClick={() => toggleShowMore(!showMore)}
 					>

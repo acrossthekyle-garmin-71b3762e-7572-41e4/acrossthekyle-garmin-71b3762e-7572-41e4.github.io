@@ -120,7 +120,7 @@ body {
   border-radius: 3px;
   padding: 3.5px 10px;
   margin: 0 8px 8px 0;
-  cursor: default;
+  cursor: pointer;
   user-select: none;
   transition: background-color 0.3s;
   border: none;
