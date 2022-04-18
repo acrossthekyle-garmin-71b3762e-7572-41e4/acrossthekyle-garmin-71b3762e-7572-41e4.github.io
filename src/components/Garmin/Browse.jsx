@@ -105,6 +105,7 @@ export const Browse = () => {
 
 	const products = useSelector(state => state.garmin.products);
 
+	const [query, setQuery] = useState('');
 	const [toastName, setToastName] = useState('');
 	const [toastVisible, setToastVisible] = useState(false);
 
@@ -125,6 +126,18 @@ export const Browse = () => {
 		toast.hide();
 
 		setToastVisible(false);
+	};
+
+	const handleSearchOnChange = (event) => {
+		setQuery(event.target.value.toLowerCase());
+	};
+
+	const filterProducts = (product) => {
+		if (query === '') {
+      return true;
+    }
+
+    return product.name.toLowerCase().includes(query);
 	};
 
 	if (products === undefined) {
@@ -166,7 +179,17 @@ export const Browse = () => {
 		    </div>
 			</div>
 
-			{products?.filter((product) => product.type !== 'bundle').map((product) => (
+			<form className="mb-4">
+	      <input
+	      	className="form-control me-2 bg-dark text-light border-secondary"
+	      	type="search"
+	      	placeholder="Search"
+	      	onChange={handleSearchOnChange}
+	      	value={query}
+	      />
+	    </form>
+
+			{products?.filter(filterProducts).map((product) => (
 				<Product
 					key={product.uuid}
 					onAddToCart={handleOnAddToCart}
