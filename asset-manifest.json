@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.297fd6cd.css",
+    "main.css": "/static/css/main.b11a3a89.css",
     "main.js": "/static/js/main.eff69328.js",
     "static/media/elevation.jpg": "/static/media/elevation.3be8f0212502dfdf44e8.jpg",
     "static/media/temperature.jpg": "/static/media/temperature.58d93c4b263dbd98903a.jpg",
@@ -9,11 +9,11 @@
     "static/media/barometer.jpg": "/static/media/barometer.f7a92cc15bfa43378267.jpg",
     "static/media/sun_times.jpg": "/static/media/sun_times.f78fb9fa43d23a116eae.jpg",
     "index.html": "/index.html",
-    "main.297fd6cd.css.map": "/static/css/main.297fd6cd.css.map",
+    "main.b11a3a89.css.map": "/static/css/main.b11a3a89.css.map",
     "main.eff69328.js.map": "/static/js/main.eff69328.js.map"
   },
   "entrypoints": [
-    "static/css/main.297fd6cd.css",
+    "static/css/main.b11a3a89.css",
     "static/js/main.eff69328.js"
   ]
 }
