@@ -74,6 +74,12 @@ body {
   font-size: 1.75rem;
 }
 
+.product .product-divider {
+  border-top: 1px solid;
+  width: 50px;
+  transition: width 0.3s;
+}
+
 .product .product-content .product-preview-txt {
   text-overflow: ellipsis;
   text-align: left;
@@ -157,6 +163,10 @@ body {
     transform: scale(1.1);
   }
 
+  .product:hover .product-divider {
+    width: 100px;
+  }
+
   .product .product-content {
     padding: 3rem;
     width: 100%;
@@ -221,7 +231,7 @@ body {
 }
 
 .product.green .product-divider {
-	background-color: #79dd09;
+	border-top-color: #79dd09;
 }
 
 .product.green::before {
@@ -233,7 +243,7 @@ body {
 }
 
 .product.blue .product-divider {
-	background-color: #0076bd;
+	border-top-color: #0076bd;
 }
 
 .product.blue::before {
@@ -245,7 +255,7 @@ body {
 }
 
 .product.red .product-divider {
-	background-color: #bd150b;
+	border-top-color: #bd150b;
 }
 
 .product.red::before {
@@ -257,7 +267,7 @@ body {
 }
 
 .product.yellow .product-divider {
-	background-color: #bdbb49;
+	border-top-color: #bdbb49;
 }
 
 .product.yellow::before {

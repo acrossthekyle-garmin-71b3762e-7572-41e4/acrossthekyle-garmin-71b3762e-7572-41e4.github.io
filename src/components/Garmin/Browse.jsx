@@ -61,7 +61,7 @@ const Product = ({ product, onAddToCart }) => {
 						{product.snippet}
 					</div>
 				</div>
-				<hr className={`product-divider ${product.color}`} />
+				<div className={`product-divider ${product.color} my-3`} />
 				<div className="product-preview-txt position-relative">
 					{showMore && (
 						<div className="product-preview-txt-arrows d-flex flex-column position-absolute start-0 top-0 fs-4">
