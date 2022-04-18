@@ -5,23 +5,15 @@ export const Landing = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-      <header className="mb-auto" />
-
-		  <main className="px-3">
-	    	<h1 className="pb-4 mt-4">acrossthekyle</h1>
-        <div className="text-center my-home-buttons">
-          <button
-            type="button"
-            className="btn btn-lg btn-secondary fw-bold mt-4"
-            onClick={() => navigate('garmin')}
-          >
-            Browse Garmin Apps
-          </button>
-        </div>
-      </main>
-
-      <footer className="mt-auto text-white-50" />
+    <div className="d-flex align-items-center justify-content-center font-monospace h-100 flex-column">
+      <h1>@acrossthekyle</h1>
+      <button
+        type="button"
+        className="btn btn-lg btn-dark"
+        onClick={() => navigate('garmin')}
+      >
+        > Garmin
+      </button>
 		</div>
   );
 }
