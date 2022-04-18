@@ -93,7 +93,7 @@ export const Container = () => {
               onClick={() => navigate('/garmin')}
               type="button"
             >
-    	        acrossthekyle
+    	        @acrossthekyle
     	      </button>
           </div>
           <div className="col-12 col-sm-8 d-flex justify-content-sm-end">
