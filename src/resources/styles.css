@@ -22,6 +22,20 @@ body {
   z-index: 99;
 }
 
+.accordion-button {
+  background-color: #18151f;
+  color: #ffffff;
+}
+
+.accordion-button::after {
+  display: none;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #18151f;
+  color: lightgray;
+}
+
 /* Browse Cards  */
 
 .product {

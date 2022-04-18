@@ -2,14 +2,53 @@ import React from 'react';
 
 export const Help = () => {
 	return (
-		<>
-			<article className="product text-start blue">
-				<img className="product-img" src="https://picsum.photos/id/1073/1300/1300" alt="" />
-				<div className="product-content font-monospace">
-					<h1 className="product-title">What do I do with the Unlock Code?</h1>
-					<hr className="product-divider blue" />
-					<div className="product-preview-txt product-preview-txt-no-height">
-						<ul className="text-start">
+		<div className="accordion font-monospace">
+		  <div className="accordion-item mb-4 rounded bg-dark border-dark text-light">
+		    <h2 className="accordion-header">
+		      <button
+		      	className="accordion-button rounded collapsed"
+		      	type="button"
+		      	data-bs-toggle="collapse"
+		      	data-bs-target="#CannotUsePayPal"
+		      >
+		        > What if I can't use PayPal?
+		      </button>
+		    </h2>
+		    <div id="CannotUsePayPal" className="accordion-collapse collapse">
+		      <div className="accordion-body text-start">
+		      	<p>
+			      	If you are unable to pay with PayPal then please click
+			      	on "Donate" at the top of the screen. This will take you to
+			      	buymeacoffee.com where you can purchase one (1) coffee.
+		      	</p>
+		      	<p>
+		      		Please <strong>do not</strong> forget to indicate which item you wish to purchase
+		      		an Unlock Code for in the comments when paying.
+		      	</p>
+		      	<p>
+		      		Once the payment has been received I will send you the Unlock Code.
+		      	</p>
+		      	<p>
+		      		Thanks!
+		      	</p>
+		      </div>
+		    </div>
+		  </div>
+
+		  <div className="accordion-item mb-4 rounded bg-dark border-dark text-light">
+		    <h2 className="accordion-header">
+		      <button
+		      	className="accordion-button rounded collapsed"
+		      	type="button"
+		      	data-bs-toggle="collapse"
+		      	data-bs-target="#HowToEnterUnlockCode"
+		      >
+		        > What do I do with the Unlock Code?
+		      </button>
+		    </h2>
+		    <div id="HowToEnterUnlockCode" className="accordion-collapse collapse">
+		      <div className="accordion-body text-start">
+		      	<ul className="text-start">
 			        <li>
 			          Once you get the Unlock Code, open the Garmin ConnectIQ Mobile app (make sure the widget isn't open on the watch).
 			        </li>
@@ -29,22 +68,32 @@ export const Help = () => {
 			          You can then check the Unlock Status from the settings menu on the watch (open the menu on the main widget screen), or from the Settings screen in the Garmin ConnectIQ Mobile app.
 			        </li>
 			      </ul>
-					</div>
-				</div>
-			</article>
-			<article className="product text-start green">
-				<img className="product-img" src="https://picsum.photos/id/0/1000/1000" alt="" />
-				<div className="product-content font-monospace">
-					<h1 className="product-title">Where is the email?</h1>
-					<hr className="product-divider green" />
-					<div className="product-preview-txt product-preview-txt-no-height">
-						Emails can sometimes take up to 12+ hours to arrive. If the email has not
-		        arrived in a timely manner first check your spam folder (sometimes they can end up in there),
-		        and if they still have not arrived then please reach out via <a href="mailto:acrossthekyle@gmail.com">email</a>,
-		        or through the "Contact Developer" feature in the ConnectIQ mobile app.
-					</div>
-				</div>
-			</article>
-		</>
+		      </div>
+		    </div>
+		  </div>
+
+		  <div className="accordion-item mb-4 rounded bg-dark border-dark text-light">
+		    <h2 className="accordion-header">
+		      <button
+		      	className="accordion-button rounded collapsed"
+		      	type="button"
+		      	data-bs-toggle="collapse"
+		      	data-bs-target="#WhereIsEmail"
+		      >
+		        > Where is the email?
+		      </button>
+		    </h2>
+		    <div id="WhereIsEmail" className="accordion-collapse collapse">
+		      <div className="accordion-body text-start">
+		      	<p>
+			      	Emails can sometimes take up to 12+ hours to arrive. If the email has not
+			        arrived in a timely manner first check your spam folder (sometimes they can end up in there),
+			        and if they still have not arrived then please reach out via <a href="mailto:acrossthekyle@gmail.com">email</a>,
+			        or through the "Contact Developer" feature in the ConnectIQ mobile app.
+		        </p>
+		      </div>
+		    </div>
+		  </div>
+		</div>
 	);
 }
