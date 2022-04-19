@@ -48,7 +48,7 @@ export const Cart = () => {
 
     	modal.hide();
     }
-	}, [cartCount]);
+	}, [cartCount, dispatch]);
 
 	const handleQuantityOnChange = (index, quantity) => {
 		dispatch(changeQuantityInCart({ index, quantity }));
@@ -213,61 +213,69 @@ export const Cart = () => {
 						<div className="row">
 				      <div className="col-md-8 cart text-dark text-start">
 				      	<div className="d-flex align-items-center justify-content-between mt-1 pt-4 mt-md-0 pt-md-0">
-				        	<h3 className="fw-bolder mb-0">Cart</h3>
-				        	<span className="text-muted fw-bold text-small">
+				        	<h3 className="fw-bolder mb-0" tabIndex="0">Cart</h3>
+				        	<span className="text-muted fw-bold text-small" tabIndex="0">
 				        		{cartCount} Item{cartCount > 1 ? 's' : ''}
 				        	</span>
 				        </div>
-				        {cart.map(({ uuid, quantity }, index) => (
-				        	<React.Fragment key={index}>
-				        		<hr />
-					        	<div className="row d-flex align-items-center">
-						        	<div className="col-12 col-md-5 mb-2 mb-md-0">
-						        		{utils.getName(uuid, products)}
-						        	</div>
-						        	<div className="col-4 col-md-2 text-start text-md-center">
-						        		<div className="dropdown">
-												  <button
-												  	className="btn btn-outline-secondary btn-sm dropdown-toggle"
-												  	type="button"
-												  	data-bs-toggle="dropdown"
-												  >
-												    {quantity}
-												  </button>
-												  <ul className="dropdown-menu dropdown-menu-dark">
-													  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
-													    <li key={value}>
-													    	<button
-													    		className="dropdown-item"
-													    		onClick={() => handleQuantityOnChange(index, value)}
-													    	>
-													    		{value}
-													    	</button>
-													    </li>
-												    ))}
-												  </ul>
-												</div>
-						        	</div>
-						        	<div className="col-4 col-md-2 text-center">
-						        		${String(utils.getCost(uuid, products))}
-						        	</div>
-						        	<div className="col-4 col-md-3 text-end">
-						        		<button
-						        			className="btn btn-danger btn-sm"
-						        			type="button"
-						        			onClick={() => handleRemoveFromCart(index)}
-						        		>
-						        			Remove
-						        		</button>
-						        	</div>
-						        </div>
-					        </React.Fragment>
-				        ))}
+				        {cart.map(({ uuid, quantity }, index) => {
+				        	const productName = utils.getName(uuid, products);
+
+				        	return (
+				        		<React.Fragment key={index}>
+					        		<hr />
+						        	<div className="row d-flex align-items-center">
+							        	<div className="col-12 col-md-5 mb-2 mb-md-0">
+							        		{productName}
+							        	</div>
+							        	<div className="col-4 col-md-2 text-start text-md-center">
+							        		<div className="dropdown">
+													  <button
+													  	className="btn btn-outline-secondary btn-sm dropdown-toggle"
+													  	type="button"
+													  	data-bs-toggle="dropdown"
+													  	aria-label={`${productName} Quantity: ${quantity}`}
+													  >
+													    {quantity}
+													  </button>
+													  <ul className="dropdown-menu dropdown-menu-dark">
+														  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+														    <li key={value}>
+														    	<button
+														    		className="dropdown-item"
+														    		onClick={() => handleQuantityOnChange(index, value)}
+														    	>
+														    		{value}
+														    	</button>
+														    </li>
+													    ))}
+													  </ul>
+													</div>
+							        	</div>
+							        	<div className="col-4 col-md-2 text-center" tabIndex="0">
+							        		${String(utils.getCost(uuid, products))} <span className="visually-hidden">each</span>
+							        	</div>
+							        	<div className="col-4 col-md-3 text-end">
+							        		<button
+							        			className="btn btn-danger btn-sm"
+							        			type="button"
+							        			onClick={() => handleRemoveFromCart(index)}
+							        			aria-label={`Remove ${productName} from cart`}
+							        		>
+							        			Remove
+							        		</button>
+							        	</div>
+							        </div>
+						        </React.Fragment>
+				        	);
+				        })}
 				        <hr className="d-none d-md-block" />
 				        {cart.length === 1 && showBundleDiscountAlert && (
 				        	<div className="text-center mt-4">
 				        		<hr className="d-block d-md-none" />
-				        		<div className="mb-2">Add another item to get a bundled discount?</div>
+				        		<div className="mb-2" tabIndex="0">
+				        			Add another item to get a bundled discount?
+				        		</div>
 				        		<button
 					        		className="btn btn-secondary btn-sm me-2"
 					        		type="button"
@@ -292,7 +300,7 @@ export const Cart = () => {
 				        )}
 					  	</div>
 					    <div className="col-md-4 summary text-dark text-start">
-					      <h3 className="fw-bolder">Summary</h3>
+					      <h3 className="fw-bolder" tabIndex="0">Summary</h3>
 					      <hr />
 					      {cart.length > 1 && (
 					      	<>
@@ -307,7 +315,7 @@ export const Cart = () => {
 						        <hr />
 					        </>
 				        )}
-				        <div className="d-flex align-items-center justify-content-between mb-3">
+				        <div className="d-flex align-items-center justify-content-between mb-3" tabIndex="0">
 				        	<div className="fw-bold">Total:</div>
 				        	<span className="fw-bold">${String(total.toFixed(2))}</span>
 				        </div>
@@ -317,7 +325,7 @@ export const Cart = () => {
 				            htmlFor="email"
 				            className="fw-bold mb-1"
 				          >
-				            Email Address <span className="text-danger">*</span>
+				            Email Address <span aria-hidden="true" className="text-danger">*</span>
 				          </label>
 				          <input
 				          	type="email"
@@ -325,10 +333,12 @@ export const Cart = () => {
 				          	id="email"
 				          	onChange={handleEmailOnChange}
 				          	value={email}
+				          	aria-placeholder={`(The Unlock Code${cartCount > 1 ? 's' : ''} will be sent to this email address.)`}
+				          	aria-required="true"
 				          />
 				          {!isManual && (
-				          	<div className="form-text text-start">
-					            The Unlock Code(s) will be sent to this email address.
+				          	<div aria-hidden="true" className="form-text text-start">
+					            The Unlock Code{cartCount > 1 ? 's' : ''} will be sent to this email address.
 					          </div>
 				          )}
 				          {isManual && (
@@ -396,7 +406,7 @@ export const Cart = () => {
 							            label:  'pay'
 							          }}
 							        />
-							        <div className="form-text text-start">
+							        <div className="form-text text-start" tabIndex="0">
 							          <p>
 							            When using the "Pay with Debit or Credit Card" option (Guest Checkout),
 							            clicking on "Create Account & Continue", or "Continue

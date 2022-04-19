@@ -14,19 +14,22 @@ const pages = [
     name: 'Browse',
     key: '/garmin',
     path: '/garmin',
-    external: false
+    external: false,
+    ariaLabel: 'Browse Garmin watch apps'
   },
   {
     name: 'Donate',
     key: 'donate',
     path: 'https://www.buymeacoffee.com/acrossthekyle',
-    external: true
+    external: true,
+    ariaLabel: 'Donate and support my work'
   },
   {
     name: 'FAQ',
     key: 'help',
     path: '/garmin/help',
-    external: false
+    external: false,
+    ariaLabel: 'Frequently Asked Questions'
   }
 ];
 
@@ -55,7 +58,7 @@ export const Container = () => {
 
   if (loaded === false) {
     return (
-      <div className="my-loader bg-dark">
+      <div className="my-loader bg-dark" aria-hidden="true">
         <div className="d-flex justify-content-center align-items-center h-100">
           <div className="spinner-border" role="status" />
         </div>
@@ -92,6 +95,8 @@ export const Container = () => {
               className="btn btn-transparent me-md-auto text-light text-decoration-none font-monospace ps-0"
               onClick={() => navigate('/')}
               type="button"
+              role="link"
+              aria-label="Go to home page"
             >
     	        @acrossthekyle
     	      </button>
@@ -99,13 +104,14 @@ export const Container = () => {
           <div className="col-12 col-sm-8 d-flex justify-content-sm-end">
             {(!location.pathname.includes('success') && !location.pathname.includes('error')) && (
               <ul className="nav flex-column flex-sm-row text-start">
-                {pages.map(({ external, key, name, path }, index) => (
+                {pages.map(({ ariaLabel, external, key, name, path }, index) => (
                   <li key={key} className="nav-item font-monospace">
                     <a
                       className={`btn btn-transparent ${location.pathname === path ? 'text-secondary' : 'text-light'} ps-0 ${index === (pages.length - 1) ? '' : 'pe-4'}`}
                       href={`${external ? '' : '#'}${path}`}
                       target={external ? '_blank' : '_self'}
                       rel="noreferrer"
+                      aria-label={ariaLabel}
                     >
                       <span className="d-inline d-sm-none">{'>'}</span> {name}
                     </a>
@@ -117,6 +123,8 @@ export const Container = () => {
                     type="button"
                     data-bs-toggle={cartCount === 0 ? '' : 'modal'}
                     data-bs-target="#cart"
+                    aria-disabled={cartCount === 0}
+                    aria-label="View cart"
                   >
                     Cart
                     <span

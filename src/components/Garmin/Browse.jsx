@@ -15,6 +15,14 @@ const Product = ({ product, onAddToCart }) => {
 
 	const [showMore, toggleShowMore] = useState(false);
 
+	const descriptionRef = useRef();
+
+	useEffect(() => {
+		if (showMore && descriptionRef.current) {
+			descriptionRef.current.focus();
+		}
+	}, [descriptionRef, showMore]);
+
 	const handleOnAddToCart = (uuid) => {
     dispatch(addToCart({ uuid, quantity: 1 }));
 
@@ -51,29 +59,39 @@ const Product = ({ product, onAddToCart }) => {
 
   return (
 		<article key={product.uuid} className={`product text-start ${product.color}`}>
-			<img className="product-img" src={getHero(product.name)} alt="" />
+			<img className="product-img" src={getHero(product.name)} alt="" aria-hidden="true" />
 			<div className="product-content font-monospace">
-				<h1 className={`product-title ${product.color}`}>{product.name}</h1>
+				<h1 className={`product-title ${product.color}`} tabIndex="0">{product.name}</h1>
 				<div className="product-subtitle">
-					<span className="badge bg-success me-2">Cost: ${product.cost}</span>
-					<span className="badge bg-secondary">Trial period: {product.trial} days</span>
-					<div className="mt-2">
+					<span className="badge bg-success me-2" tabIndex="0">Cost: ${product.cost}</span>
+					<span className="badge bg-secondary" tabIndex="0">Trial period: {product.trial} days</span>
+					<div className="mt-2" tabIndex="0">
 						{product.snippet}
 					</div>
 				</div>
 				<div className={`product-divider ${product.color} my-3`} />
-				<div className="product-preview-txt position-relative">
+				<div className="product-preview-txt position-relative" tabIndex="0">
 					{showMore && (
-						<div className="product-preview-txt-arrows d-flex flex-column position-absolute start-0 top-0 fs-4">
+						<div
+							className="product-preview-txt-arrows d-flex flex-column position-absolute start-0 top-0 fs-4"
+							aria-hidden="true"
+						>
 							<span>{String.fromCharCode(8593)}</span>
 							<span>{String.fromCharCode(8595)}</span>
 						</div>
 					)}
-					{!showMore && product.description[0].replace(/^(.{200}[^\s]*).*/, "$1").replace(/([.,\/#!$%\^&\*;:{}=\-_`~()\]\[])+$/g, "") + '...'}
+					{!showMore && (
+						<p className="p-0 m-0">
+							<span className="visually-hidden">Description (truncated):</span>
+							{product.description[0].replace(/^(.{200}[^\s]*).*/, "$1").replace(/([.,\/#!$%\^&\*;:{}=\-_`~()\]\[])+$/g, "") + '...'}
+						</p>
+					)}
 					{showMore && (
 						<div className="product-preview-txt-content">
 							{product.description.map((text, index) => (
-								<p key={index}>{text}</p>
+								<p key={index} ref={index === 0 ? descriptionRef : undefined} tabIndex="0">
+									{text}
+								</p>
 							))}
 						</div>
 					)}
@@ -83,6 +101,8 @@ const Product = ({ product, onAddToCart }) => {
 						className={`product-tag-item ${product.color} text-decoration-none`}
 						href={product.url}
 						target="_blank"
+						aria-label={`View ${product.name} on Garmin store`}
+						rel="noreferrer"
 					>
 						View on Store
 					</a>
@@ -90,6 +110,7 @@ const Product = ({ product, onAddToCart }) => {
 						className={`product-tag-item ${product.color}`}
 						type="button"
 						onClick={() => handleOnAddToCart(product.uuid)}
+						aria-label={`Add ${product.name} to cart`}
 					>
 						Add to Cart
 					</button>
@@ -97,6 +118,7 @@ const Product = ({ product, onAddToCart }) => {
 						className="product-tag-item"
 						type="button"
 						onClick={() => toggleShowMore(!showMore)}
+						aria-label={showMore ? 'Collapse description' : 'Expand description'}
 					>
 						{showMore && 'Show Less'}
 						{!showMore && 'Show More'}
@@ -122,6 +144,8 @@ export const Browse = () => {
 	    	autohide: false
 	    });
 	    toast.show();
+
+	    toastRef.current.focus();
 
 	    setToastName(name);
 	    setToastVisible(true);
@@ -154,7 +178,7 @@ export const Browse = () => {
 	return (
 		<>
 			<div className="toast-container position-fixed top-0 end-0 p-3">
-				<div className="toast" role="alert" ref={toastRef}>
+				<div className="toast" role="alert" ref={toastRef} tabIndex="0" aria-live="assertive" aria-atomic="true">
 		      <div className="toast-header">
 		      	<span className="font-monospace text-dark text-start">
 		      		<strong>{toastName}</strong> added to cart!
@@ -163,6 +187,7 @@ export const Browse = () => {
 				    	type="button"
 				    	className="btn-close me-0 m-auto"
 				    	onClick={handleToastDismissal}
+				    	aria-label="Close alert"
 				    />
 		      </div>
 		      <div className="toast-body bg-light text-end rounded">
@@ -186,11 +211,12 @@ export const Browse = () => {
 		    </div>
 			</div>
 
-			<form className="mb-4">
+			<form className="mb-4" role="search" aria-label="On this page">
 	      <input
 	      	className="form-control me-2 bg-dark text-light border-secondary"
 	      	type="search"
-	      	placeholder="Search"
+	      	placeholder="Search for an item"
+	      	spellCheck="false"
 	      	onChange={handleSearchOnChange}
 	      	value={query}
 	      />
