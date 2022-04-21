@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.5b6db4fc.css",
-    "main.js": "/static/js/main.921f8a25.js",
+    "main.css": "/static/css/main.6e02b415.css",
+    "main.js": "/static/js/main.8f04f6f2.js",
     "static/media/me.jpg": "/static/media/me.c6eb65da23874eeffdb8.jpg",
     "static/media/elevation.jpg": "/static/media/elevation.3be8f0212502dfdf44e8.jpg",
     "static/media/temperature.jpg": "/static/media/temperature.58d93c4b263dbd98903a.jpg",
@@ -11,11 +11,11 @@
     "static/media/sun_times.jpg": "/static/media/sun_times.f78fb9fa43d23a116eae.jpg",
     "index.html": "/index.html",
     "static/media/link.svg": "/static/media/link.bf87bc57c659d5adcb84a8d33132b32d.svg",
-    "main.5b6db4fc.css.map": "/static/css/main.5b6db4fc.css.map",
-    "main.921f8a25.js.map": "/static/js/main.921f8a25.js.map"
+    "main.6e02b415.css.map": "/static/css/main.6e02b415.css.map",
+    "main.8f04f6f2.js.map": "/static/js/main.8f04f6f2.js.map"
   },
   "entrypoints": [
-    "static/css/main.5b6db4fc.css",
-    "static/js/main.921f8a25.js"
+    "static/css/main.6e02b415.css",
+    "static/js/main.8f04f6f2.js"
   ]
 }
