@@ -2,8 +2,8 @@ import React from 'react';
 import { Navigate, Routes, Route } from "react-router-dom";
 
 import { Container } from './Container';
-import { Browse } from './Browse';
-import { Help } from './Help';
+import { Browse } from './Browse/Browse';
+import { Help } from './Help/Help';
 import { Success } from './Success';
 import { Error } from './Error';
 

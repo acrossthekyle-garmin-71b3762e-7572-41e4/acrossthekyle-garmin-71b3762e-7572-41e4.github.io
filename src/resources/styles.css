@@ -82,6 +82,12 @@ body {
   font-size: 1.75rem;
 }
 
+.product .product-content .product-title .badge-sale {
+  font-size: .75rem;
+  position: relative;
+  top: -8px;
+}
+
 .product .product-divider {
   border-top: 1px solid;
   width: 50px;
@@ -336,6 +342,12 @@ body {
   .shopping-cart {
       margin: 3vh auto
   }
+}
+
+.shopping-cart .sale-badge-pill {
+  font-size: 10px;
+  position: relative;
+  top: -2px;
 }
 
 .shopping-cart .cart {

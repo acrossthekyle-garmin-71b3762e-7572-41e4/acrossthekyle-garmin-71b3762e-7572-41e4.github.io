@@ -3,13 +3,11 @@ import {
   CHANGE_QUANTITY_IN_CART,
   ON_LOAD,
   ON_PURCHASED,
-  REMOVE_FROM_CART,
-  SET_EMAIL
+  REMOVE_FROM_CART
 } from './types';
 
 const INITIAL_STATE = {
   cart: [],
-  email: '',
   loaded: false,
   products: undefined
 };
@@ -80,12 +78,6 @@ export const reducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         cart: changeQuantityInCart(state.cart, action.payload)
-      };
-
-    case SET_EMAIL:
-      return {
-        ...state,
-        email: action.payload
       };
 
     default:

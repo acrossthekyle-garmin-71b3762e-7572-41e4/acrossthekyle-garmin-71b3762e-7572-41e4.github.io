@@ -3,8 +3,7 @@ import {
 	CHANGE_QUANTITY_IN_CART,
 	ON_LOAD,
 	ON_PURCHASED,
-	REMOVE_FROM_CART,
-	SET_EMAIL
+	REMOVE_FROM_CART
 } from './types';
 
 export const addToCart = (payload) => {
@@ -37,13 +36,6 @@ export const onPurchased = () => {
 export const removeFromCart = (payload) => {
   return {
 		type: REMOVE_FROM_CART,
-		payload
-  };
-};
-
-export const setEmail = (payload) => {
-  return {
-		type: SET_EMAIL,
 		payload
   };
 };

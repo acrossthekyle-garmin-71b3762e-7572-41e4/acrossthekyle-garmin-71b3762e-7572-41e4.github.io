@@ -4,8 +4,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 import { onLoaded } from '../../store/garmin/actions';
-import { Cart } from './Cart';
-import * as utils from './utils';
+import {
+  selectCartCount,
+  selectClientId,
+  selectLoaded,
+  selectProducts,
+} from '../../store/garmin/selectors';
+
+import { Cart } from './Cart/Cart';
 
 const axios = require('axios').default;
 
@@ -40,9 +46,10 @@ export const Container = () => {
 
   const dispatch = useDispatch();
 
-  const products = useSelector(state => state.garmin.products);
-  const loaded = useSelector(state => state.garmin.loaded);
-  const cart = useSelector(state => state.garmin.cart);
+  const clientId = useSelector(selectClientId);
+  const products = useSelector(selectProducts);
+  const loaded = useSelector(selectLoaded);
+  const cartCount = useSelector(selectCartCount);
 
   useEffect(() => {
     if (products === undefined) {
@@ -52,9 +59,10 @@ export const Container = () => {
     }
   }, [products, dispatch]);
 
-  const cartCount = utils.getCartCount(cart);
+  const cartIsEmpty = cartCount === 0;
 
-  const clientId = (process.env.NODE_ENV === 'development' ? 'Abny9Qva83EbxXxthpqaTYHifJGptx73dZX6uWh-z8UDaF-xK8g5sPkSz59_YR4Bwy696QjpQ5-r5meb' : 'AfukE7xeOHI3Qh5RGage7d9BYnxG0NHw_WEq0H_aoTRfEDMjOdRVAj7EpoyVQfSaoDDDGBuqqV02jEUu');
+  const canRenderNavigation = !location.pathname.includes('success') &&
+    !location.pathname.includes('error');
 
   if (loaded === false) {
     return (
@@ -102,7 +110,7 @@ export const Container = () => {
     	      </button>
           </div>
           <div className="col-12 col-sm-8 d-flex justify-content-sm-end">
-            {(!location.pathname.includes('success') && !location.pathname.includes('error')) && (
+            {canRenderNavigation && (
               <ul className="nav flex-column flex-sm-row text-start">
                 {pages.map(({ ariaLabel, external, key, name, path }, index) => (
                   <li key={key} className="nav-item font-monospace">
@@ -121,14 +129,14 @@ export const Container = () => {
                   <button
                     className="btn btn-transparent text-light font-monospace pe-0 ps-3 d-none d-sm-block"
                     type="button"
-                    data-bs-toggle={cartCount === 0 ? '' : 'modal'}
+                    data-bs-toggle={cartIsEmpty ? '' : 'modal'}
                     data-bs-target="#cart"
-                    aria-disabled={cartCount === 0}
+                    aria-disabled={cartIsEmpty}
                     aria-label="View cart"
                   >
                     Cart
                     <span
-                      className={`badge rounded-pill ms-2 text-center ${cartCount > 0 ? 'bg-danger text-light' : 'bg-light text-dark'}`}
+                      className={`badge rounded-pill ms-2 text-center ${cartIsEmpty ? 'bg-light text-dark' : 'bg-danger text-light'}`}
                     >
                       {cartCount}
                     </span>
@@ -139,12 +147,12 @@ export const Container = () => {
             <button
               className="btn btn-transparent text-light font-monospace d-block d-sm-none position-absolute end-0 top-0 mt-4"
               type="button"
-              data-bs-toggle={cartCount === 0 ? '' : 'modal'}
+              data-bs-toggle={cartIsEmpty ? '' : 'modal'}
               data-bs-target="#cart"
             >
               Cart
               <span
-                className={`badge rounded-pill ms-2 text-center ${cartCount > 0 ? 'bg-danger text-light' : 'bg-light text-dark'}`}
+                className={`badge rounded-pill ms-2 text-center ${cartIsEmpty ? 'bg-light text-dark' : 'bg-danger text-light'}`}
               >
                 {cartCount}
               </span>
