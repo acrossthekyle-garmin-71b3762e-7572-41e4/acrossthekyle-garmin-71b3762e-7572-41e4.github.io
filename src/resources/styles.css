@@ -115,6 +115,10 @@ body {
   max-height: 250px;
 }
 
+.product .product-content .product-preview-txt-content p {
+  outline: 0;
+}
+
 .product .product-content .product-preview-txt-no-height {
   max-height: none;
 }
