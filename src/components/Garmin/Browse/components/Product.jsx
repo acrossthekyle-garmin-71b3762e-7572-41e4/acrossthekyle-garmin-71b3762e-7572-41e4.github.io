@@ -66,29 +66,25 @@ export const Product = ({ product, onAddToCart }) => {
 					tabIndex="0"
 				>
 					{product.name}
-					{product.sale !== undefined && (
-						<span className="badge badge-sale bg-danger ms-2">
-							ON SALE!
-						</span>
-					)}
 				</h1>
 				<div className="product-subtitle">
-					{product.cost !== undefined && (
-						<span
-							className="badge bg-success me-2"
-							tabIndex="0"
-						>
-							Cost: {product.sale !== undefined ? (
-								<>
-									<span className="text-decoration-line-through me-1">
-										${String(product.cost)}
-									</span>
-									<span className="text-danger">
-										${String(product.sale)}
-									</span>
-								</>
-							) : String(product.cost)}
+					{product.sale !== undefined ? (
+						<span className="badge badge-sale bg-danger me-2">
+							<span className="me-1">ON SALE!</span>
+							<span className="text-decoration-line-through me-1">${String(product.cost)}</span>
+							${String(product.sale)}
 						</span>
+					) : (
+						<>
+							{product.cost !== undefined && (
+								<span
+									className="badge bg-success me-2"
+									tabIndex="0"
+								>
+									Cost: ${String(product.cost)}
+								</span>
+							)}
+						</>
 					)}
 					{product.trial !== undefined && (
 						<span
@@ -105,37 +101,37 @@ export const Product = ({ product, onAddToCart }) => {
 				<div className={`product-divider ${product.color} my-3`} />
 				<div className="product-preview-txt position-relative" tabIndex="0">
 					{showMore && (
-						<div
-							className="product-preview-txt-arrows d-flex flex-column position-absolute start-0 top-0 fs-4"
-							aria-hidden="true"
-						>
-							<span>{String.fromCharCode(8593)}</span>
-							<span>{String.fromCharCode(8595)}</span>
-						</div>
+						<>
+							<div
+								className="product-description-arrows d-flex flex-column position-absolute start-0 top-0 fs-4"
+								aria-hidden="true"
+							>
+								<span>{String.fromCharCode(8593)}</span>
+								<span>{String.fromCharCode(8595)}</span>
+							</div>
+							<div className="product-description">
+								{product.description.map((text, index) => (
+									<p
+										key={index}
+										ref={index === 0 ? descriptionRef : undefined}
+										tabIndex="0"
+									>
+										{text}
+									</p>
+								))}
+							</div>
+						</>
 					)}
 					{!showMore && (
-						<p className="p-0 m-0">
+						<p className="p-0 m-0 product-description-truncated">
 							<span className="visually-hidden">Description (truncated):</span>
 							{getTruncatedDescription(product.description[0])}
 						</p>
 					)}
-					{showMore && (
-						<div className="product-preview-txt-content">
-							{product.description.map((text, index) => (
-								<p
-									key={index}
-									ref={index === 0 ? descriptionRef : undefined}
-									tabIndex="0"
-								>
-									{text}
-								</p>
-							))}
-						</div>
-					)}
 				</div>
 				<ul className="product-tagbox">
 					<a
-						className={`product-tag-item ${product.color} text-decoration-none`}
+						className="product-tag-item text-decoration-none bg-primary"
 						href={product.url}
 						target="_blank"
 						aria-label={`View ${product.name} on Garmin store`}
@@ -144,7 +140,7 @@ export const Product = ({ product, onAddToCart }) => {
 						View on Store
 					</a>
 					<button
-						className={`product-tag-item ${product.color}`}
+						className="product-tag-item bg-success"
 						type="button"
 						onClick={() => onAddToCart(product)}
 						aria-label={`Add ${product.name} to cart`}

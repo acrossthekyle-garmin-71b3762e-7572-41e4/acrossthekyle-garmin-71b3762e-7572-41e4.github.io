@@ -103,7 +103,7 @@ export const Browse = () => {
 	      <input
 	      	className="form-control me-2 bg-dark text-light border-secondary"
 	      	type="search"
-	      	placeholder="Search for an item"
+	      	placeholder="Search"
 	      	spellCheck="false"
 	      	onChange={handleSearchOnChange}
 	      	value={query}

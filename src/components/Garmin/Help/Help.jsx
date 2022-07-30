@@ -27,7 +27,8 @@ export const Help = () => {
       	<ol className="text-start">
 	        <li>
 	          Once you get the Unlock Code, open the Garmin ConnectIQ Mobile app
-	          (make sure the widget isn't open on the watch).
+	          (make sure the widget isn't open on the watch). Do not use Garmin
+	          Express, it will not work.
 	        </li>
 	        <li>
 	          Enter the Unlock Code in the Settings screen for this widget. Include
@@ -52,6 +53,11 @@ export const Help = () => {
 	          Settings screen in the Garmin ConnectIQ Mobile app.
 	        </li>
 	      </ol>
+	      <p className="fst-italic">
+	      	* If it is still not unlocked try uninstalling and re-installing the
+          app. Any issues with uninstall/re-installing are up to yourself
+          to resolve.
+	      </p>
 		  </Item>
 
 		  <Item id="WhereIsEmail" question="Where is the email?">

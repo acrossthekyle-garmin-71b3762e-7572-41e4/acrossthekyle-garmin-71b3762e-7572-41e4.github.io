@@ -4,13 +4,19 @@ import { useSelector } from 'react-redux'
 import {
 	selectCart,
   selectCartCount,
-  selectCartHasSaleItems
+  selectCartHasSaleItems,
+  selectProducts
 } from '../../../../store/garmin/selectors';
 
 export const Items = ({ onRemove, onQuantityChange }) => {
 	const cart = useSelector(selectCart);
 	const cartCount = useSelector(selectCartCount);
 	const hasSaleItems = useSelector(selectCartHasSaleItems);
+	const products = useSelector(selectProducts);
+
+	const hasMultipleFullPriceProducts = products.filter(
+		product => product.sale === undefined
+	).length > 1;
 
 	const [showBundleDiscountAlert, setShowBundleDiscountAlert] = useState(true);
 
@@ -73,9 +79,20 @@ export const Items = ({ onRemove, onQuantityChange }) => {
 		        		className="col-4 col-md-2 text-center"
 		        		tabIndex="0"
 		        	>
-		        		<span className={product.sale !== undefined ? 'text-danger position-relative' : ''}>
-		        			${String(product.sale !== undefined ? product.sale : product.cost)}
-		        		</span>
+		        		{product.sale !== undefined ? (
+									<>
+										<span className="text-decoration-line-through me-1">${String(product.cost)}</span>
+										<span className="text-danger position-relative">
+				        			${String(product.sale)}
+				        		</span>
+									</>
+								) : (
+									<>
+										{product.cost !== undefined && (
+											<span>${String(product.cost)}</span>
+										)}
+									</>
+								)}
 		        		<span className="visually-hidden">each</span>
 		        	</div>
 		        	<div className="col-4 col-md-3 text-end">
@@ -93,7 +110,7 @@ export const Items = ({ onRemove, onQuantityChange }) => {
       	);
       })}
       <hr className="d-none d-md-block" />
-      {cart.length === 1 && showBundleDiscountAlert && (
+      {cart.length === 1 && showBundleDiscountAlert && hasMultipleFullPriceProducts && (
       	<div className="text-center mt-4">
       		<hr className="d-block d-md-none" />
       		<div
